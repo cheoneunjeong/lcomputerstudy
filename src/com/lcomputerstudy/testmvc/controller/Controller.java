@@ -30,7 +30,7 @@ public class Controller extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		
-		switch (command) {
+		switch (command) {//test
 			case "/user-list.do":
 				UserService userService = UserService.getInstance();
 				ArrayList<User> list = userService.getUsers();
