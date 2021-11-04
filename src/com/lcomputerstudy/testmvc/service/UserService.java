@@ -29,4 +29,8 @@ public class UserService {
 	public void insertUser(User user) {
 		dao.insertUser(user);
 	}
+	
+	public int getUsersCount() {
+		return dao.getUsersCount();
+	}
 }

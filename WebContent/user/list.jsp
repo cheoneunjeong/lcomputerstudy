@@ -8,6 +8,15 @@
 <title>회원목록2</title>
 </head>
 <style>
+h1 {
+		text-align:canter;
+	}
+	table {
+		border-collapse:collapse;
+		margin:40px auto;
+	}
+</style>
+<style>
 	table {
 		border-collapse:collapse;
 	}
@@ -27,15 +36,17 @@
 </style>
 <body>
 <h1>회원 목록</h1>
-	<table >
-		<tr>
+<table>
+	<tr>	
+		<td colspan="3"> 전체 회원 수 : ${usercount }</td>
+	<tr>
 			<th>No</th>
 			<th>ID</th>
 			<th>이름</th>
 		</tr>
 		<c:forEach items="${list}" var="item">
 			 <tr>
-				<td>${item.u_idx}</td>
+				<td><a href="user-detail.do?u_idx=${item.u_idx}">${item.u_idx}</a></td>
 				<td>${item.u_id}</td>
 				<td>${item.u_name}</td>
 		     <tr>

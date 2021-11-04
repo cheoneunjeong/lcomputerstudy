@@ -27,24 +27,27 @@ public class Controller extends HttpServlet {
 		String command = requestURI.substring(contextPath.length());
 		String view = null;
 		
+		int usercount = 0;
 		response.setContentType("text/html; charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		
 		switch (command) {//test
 			case "/user-list.do":
 				UserService userService = UserService.getInstance();
-				ArrayList<User> list = userService.getUsers();
+                ArrayList<User> list = userService.getUsers();
+                usercount = userService.getUsersCount();
 				view = "user/list";
-				request.setAttribute("list", list);
+                request.setAttribute("list", list);
+				request.setAttribute("usercount", usercount);
 				break;
 				
 			case "/user-insert.do":
 				view = "user/insert";
 				break;
-				
+				 
 			case "/user-insert-process.do" :
 				User user = new User();
-				user.setU_id(request.getParameter("id"));
+			                                              	user.setU_id(request.getParameter("id"));
 				user.setU_pw(request.getParameter("password"));
 				user.setU_name(request.getParameter("name"));
 				user.setU_tel(request.getParameter("tel1") + "-" + request.getParameter("tel2")+"-"+request.getParameter("tel3"));

@@ -38,12 +38,12 @@ public class UserDAO {
 			
 			while(rs.next() ) {
 				User user = new User();
-				user.setU_idx(rs.getInt("u_idx"));
-				user.setU_id(rs.getString("u_id"));
+ 				user.setU_idx(rs.getInt("u_idx"));
+ 				user.setU_id(rs.getString("u_id"));
 				user.setU_name(rs.getString("u_name"));
 				user.setU_tel(rs.getString("u_tel"));
 				user.setU_age(rs.getString("u_age"));
-				list.add(user);	
+ 				list.add(user);	
 			}
 		} catch (Exception e) {
 			
@@ -85,5 +85,34 @@ public class UserDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public int getUsersCount() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "SELECT COUNT(*) count FROM user";
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				count = rs.getInt("count");
+			}
+		} catch (Exception e) {
+			
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
 	}
 }
