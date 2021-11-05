@@ -41,7 +41,7 @@ public class Controller extends HttpServlet {
 				
 				UserService userService = UserService.getInstance();
                 ArrayList<User> list = userService.getUsers(page);
-                Pagination pagination = new Pagination(page);
+				Pagination pagination = new Pagination(page);
 
                 request.setAttribute("list", list);
 				request.setAttribute("pagination", pagination);

@@ -87,7 +87,7 @@ public class Pagination {
 		return perPage;
 	}
 	
-	public int getPrePage() {
+	public int getPrevPage() {
 		return prevPage;
 	}
 	
