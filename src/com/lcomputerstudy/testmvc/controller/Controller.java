@@ -12,7 +12,7 @@ import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.User;
 
-@WebServlet("*.do")
+@WebServlet("*.do") //test
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
