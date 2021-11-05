@@ -33,4 +33,8 @@ public class UserService {
 	public int getUsersCount() {
 		return dao.getUsersCount();
 	}
+	
+	public ArrayList<User> getUsers(int page) {
+		return dao.getUsers(page);
+	}
 }
