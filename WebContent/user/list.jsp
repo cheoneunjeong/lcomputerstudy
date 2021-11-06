@@ -53,13 +53,13 @@
 			<th>No</th>
 			<th>ID</th>
 			<th>이름</th>
-		</tr>
+		<tr>
 		<c:forEach items="${list}" var="item" varStatus="status">
 			 <tr>
 				<td><a href="user-detail.do?u_idx=${item.u_idx}">${item.u_idx}</a></td>
 				<td>${item.u_id}</td>
 				<td>${item.u_name}</td>
-		     <tr>
+		     </tr>
 		</c:forEach>
 	</table>
 	<div>
