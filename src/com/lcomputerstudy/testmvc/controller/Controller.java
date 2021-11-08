@@ -63,7 +63,7 @@ public class Controller extends HttpServlet {
 				 
 			case "/user-insert-process.do" :
 				User user = new User();
-			                                              	user.setU_id(request.getParameter("id"));
+			    user.setU_id(request.getParameter("id"));
 				user.setU_pw(request.getParameter("password"));
 				user.setU_name(request.getParameter("name"));
 				user.setU_tel(request.getParameter("tel1") + "-" + request.getParameter("tel2")+"-"+request.getParameter("tel3"));
@@ -79,7 +79,7 @@ public class Controller extends HttpServlet {
 				view = "user/login";
 				break;
 				
-			case "/user/user-login-process.do" :
+			case "/user-login-process.do" :
 				idx = request.getParameter("login_id");
 				pw = request.getParameter("login_password");
 				
