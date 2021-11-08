@@ -37,4 +37,8 @@ public class UserService {
 	public ArrayList<User> getUsers(int page) {
 		return dao.getUsers(page);
 	}
+	
+	public User loginUser(String idx, String pw) {
+		return dao.loginUser(idx,pw);
+	}
 }

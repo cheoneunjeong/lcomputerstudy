@@ -9,7 +9,7 @@
 </head>
 <style>
 	h1 {
-		text-align:canter;
+		text-align:center;
 	}
 	table {
 		border-collapse:collapse;
@@ -65,19 +65,15 @@
 	<div>
 		<ul>
 			 <c:choose>
-				<c:when test="${ pagination.prevPage lt 5 }">
-					<li style="display:none;">
-						<span>◀</span>
-					</li>
-				</c:when>
-				<c:when test="${ pagination.prevPage ge 5}">
+				<c:when test="${ 1 < pagination.prevPage }">
 					<li style="">
 						<a href="user-list.do?page=${pagination.prevPage}">
 							◀
 						</a>
 					</li>
 				</c:when>
-			</c:choose> 
+			</c:choose>
+			
 			<c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
 				
 					<c:choose>
@@ -94,14 +90,10 @@
 						</c:when>
 					</c:choose>
 			</c:forEach>
-			 <c:choose>
-				<c:when test="${ pagination.nextPage lt pagination.lastPage }">
+			
+			<c:choose>
+				<c:when test="${ pagination.nextPage <= pagination.lastPage }">
 					<li style="">
-						<a href="user-list.do?page=${pagination.nextPage}">▶</a>
-					</li>
-				</c:when>
-				<c:when test="${ pagination.nextPage ge pagination.lastPage}">
-					<li style="display:none;">
 						<a href="user-list.do?page=${pagination.nextPage}">▶</a>
 					</li>
 				</c:when>
