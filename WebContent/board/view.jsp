@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<span>제목 ${title }</span>
+<span>제목 ${title}</span>
 <span>작성자 </span>
 <span>작성일시 </span>
-<p><%="content" %> </p>
+<p>${content} </p>
 </body>
 </html>

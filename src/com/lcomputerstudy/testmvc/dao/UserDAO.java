@@ -199,4 +199,30 @@ public class UserDAO {
 		
 		return user;
 	}
+	
+	public void reg(String title, String content) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "INSERT INTO test (b_idx, b_title, b_content, b_date, b_writer) values(?,?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, 2 );
+			pstmt.setString(2, title);
+			pstmt.setString(3, content);
+			pstmt.setString(4, " " );
+			pstmt.setString(5, " " );
+			pstmt.executeUpdate();
+		}catch(Exception ex) {
+			System.out.println("SQLException : "+ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

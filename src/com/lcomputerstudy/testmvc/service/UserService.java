@@ -41,4 +41,8 @@ public class UserService {
 	public User loginUser(String idx, String pw) {
 		return dao.loginUser(idx,pw);
 	}
+	
+	public void reg(String title, String content ) {
+		dao.reg(title, content);
+	}
 }
