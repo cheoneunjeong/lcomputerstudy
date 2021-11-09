@@ -27,10 +27,12 @@ CREATE TABLE IF NOT EXISTS `board` (
   PRIMARY KEY (`b_idx`),
   KEY `u_idx` (`u_idx`),
   CONSTRAINT `board_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`) ON DELETE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 jung.board:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board` DISABLE KEYS */;
+INSERT INTO `board` (`b_idx`, `b_title`, `b_content`, `b_date`, `b_writer`, `u_idx`) VALUES
+	(1, '제목', '내용입니다.', '2021-11-09', '작성자', 1);
 /*!40000 ALTER TABLE `board` ENABLE KEYS */;
 
 -- 테이블 jung.user 구조 내보내기
@@ -42,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `u_tel` varchar(255) NOT NULL,
   `u_age` varchar(255) NOT NULL,
   PRIMARY KEY (`u_idx`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 jung.user:~18 rows (대략적) 내보내기
+-- 테이블 데이터 jung.user:~31 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_idx`, `u_id`, `u_pw`, `u_name`, `u_tel`, `u_age`) VALUES
 	(1, 'abc', '1234', 'NAME1', '010-0000-0000', '50'),
@@ -64,7 +66,20 @@ INSERT INTO `user` (`u_idx`, `u_id`, `u_pw`, `u_name`, `u_tel`, `u_age`) VALUES
 	(20, 'ttt', 'zxczxc', 'ttt', '010-7894-1412', '30'),
 	(21, 'zzxx', 'zzxx', 'zzxx', '010-1111-2222', '11'),
 	(22, 'gg', 'aa', 'aa', 'a-a-a', 'aa'),
-	(23, 'zxc', 'zxc', 'zxc', 'zxc-zxc-zxc', 'zxc');
+	(23, 'zxc', 'zxc', 'zxc', 'zxc-zxc-zxc', 'zxc'),
+	(24, 'vvv', 'dsf', 'awsr', '010-1233-1233', '22'),
+	(25, 'mmm', 'zxczxdc', 'qqaa', '010-3333-1233', '14'),
+	(26, 'mmm11', 'zxczxdcasd', 'qqaa1', '010-3333-4444', '50'),
+	(27, 'mmm11', 'zxczxdcasd', 'qqaa1', '010-3333-4444', '2'),
+	(28, 'ggff', 'zxczxdcasd', 'fff', '010-3333-4444', '22'),
+	(29, 'ggff', 'zxczxdcasd', 'fffz', '010-3333-4444', '22'),
+	(30, 'ggffzx', 'zxczxdcassd', 'fffz', '010-3333-4444', '26'),
+	(31, 'dfhdf', 'zxczxdcassd', 'dfh', '010-9009-7777', '26'),
+	(32, 'eryuy', 'dftr', 'rtui', '010-8888-7777', '44'),
+	(33, 'nnn', 'dftr', 'nnn', '010-8883-7222', '55'),
+	(34, 'asd', 'dftr', 'zxc', '010-1312-1233', '13'),
+	(35, 'yy5', '5678', 'ccc', '010-1312-1233', '9'),
+	(36, 'www1', '5678', 'wwxx', '010-4444-3333', '40');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
