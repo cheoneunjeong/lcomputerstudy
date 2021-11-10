@@ -39,6 +39,8 @@ margin: 0 auto;
 	</table>
 </div>
 <div>
+	<button type="button" onclick="location.href='/lcomputerstudy/board-list.do'">수정</button>
+	<button type="button" onclick="location.href='board-delete.do?b_idx=${Post.b_idx}'">삭제</button>
 	<button type="button" onclick="location.href='board-list.do'">돌아가기</button>
 </div>
 </body>

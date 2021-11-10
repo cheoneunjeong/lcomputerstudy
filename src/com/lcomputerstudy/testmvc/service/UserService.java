@@ -62,4 +62,8 @@ public class UserService {
 	public Post getPostDetail(int bidx) {
 		return dao.getPostDetail(bidx);
 	}
+	
+	public void deletePost(int Bidx) {
+		dao.deletePost(Bidx);
+	}
 }

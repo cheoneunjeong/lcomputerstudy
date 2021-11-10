@@ -160,11 +160,22 @@ public class Controller extends HttpServlet {
 			
 			view = "/board/viewDetail";
 			break;
-		}
-		
 			
-		
-
+		case "/board-delete.do" :
+			
+			String Bidx_ = request.getParameter("b_idx");
+			int Bidx = Integer.parseInt(Bidx_);
+			
+			System.out.println(Bidx);
+			
+			userService = UserService.getInstance();
+			userService.deletePost(Bidx);
+			
+			view = "/board/DeleteResult";
+			
+			break;
+			
+		}
 
 		RequestDispatcher rd = request.getRequestDispatcher(view + ".jsp");
 		rd.forward(request, response);
