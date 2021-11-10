@@ -2,6 +2,7 @@ package com.lcomputerstudy.testmvc.service;
 
 import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.dao.UserDAO;
+import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.User;
 
 public class UserService {
@@ -44,5 +45,13 @@ public class UserService {
 	
 	public void reg(String title, String content ) {
 		dao.reg(title, content);
+	}
+	
+	public int getPostCount() {
+		return dao.getPostCount();
+	}
+
+	public ArrayList<Post> getPost(){
+		return dao.getPost();
 	}
 }

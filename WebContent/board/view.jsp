@@ -1,15 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+div {
+width: 70%;
+margin: 0 auto;
+}
+	table {
+		border: 1px solid #444444;
+		border-collapse: collapse;
+		width: 100%;
+		margin: 0 auto;
+	}
+	th, td {
+		border: 1px solid #444444;
+	}
+</style>
 <body>
-<span>제목 ${title}</span>
-<span>작성자 </span>
-<span>작성일시 </span>
-<p>${content} </p>
+<div>
+	<table>
+		<tr>
+			<th align="center">${title }</th>
+		</tr>
+		<tr>
+			<td align="right">${post.b_writer}</td>
+		</tr>
+		<tr>
+			<td align="right">${post.b_date}</td>
+		</tr>
+		<tr>
+			<td align="center">${content}</td>
+		</tr>
+	</table>
+</div>
 </body>
 </html>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Pagination;
+import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.User;
 
 @WebServlet("*.do") // test
@@ -114,10 +115,24 @@ public class Controller extends HttpServlet {
 
 			UserService userservice = UserService.getInstance();
 			userservice.reg(title, content);
-
+			Post post = new Post();
+			
+			request.setAttribute("title", title);
+			request.setAttribute("content", content);
+			request.setAttribute("post", post);
+			
 			view = "/board/view";
 			break;
+			
+		case "/board/list.do" :
+			
+			view = "/board/list";
+			break;
+
+			
 		}
+		
+
 
 		RequestDispatcher rd = request.getRequestDispatcher(view + ".jsp");
 		rd.forward(request, response);

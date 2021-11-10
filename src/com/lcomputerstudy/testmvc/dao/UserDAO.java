@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.database.DBConnection;
+import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.User;
 
 public class UserDAO {
@@ -225,4 +226,57 @@ public class UserDAO {
 			}
 		}
 	}
+	
+	public int getPostCount() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "SELECT COUNT(*) count FROM test";
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				count = rs.getInt("count");
+			}
+		} catch (Exception e) {
+			
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+				if(conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
+	}
+	
+	public ArrayList<Post> getPost() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Post> list = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "select * from test";
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			list = new ArrayList<Post>();
+			
+			while(rs.next()) {
+					Post post = new Post();
+					post.setB_idx(rs.getInt("b_idx"));
+					post.setB_title(rs.getString("b_title"));
+					
+			}
+			
+		} catch(Exception e) {}
+		return list;
+	} 
 }
