@@ -19,6 +19,7 @@
 <fieldset>
 <form action="reg.do" method="post">
 	<p> 제목 <input type="text" name="title"> </p>
+	<p> 번호 <input type = "text" name = "num"></p>
 	내용<br>
 	<textarea rows="20" cols="50" name="content"></textarea>
 	<br>

@@ -43,8 +43,8 @@ public class UserService {
 		return dao.loginUser(idx,pw);
 	}
 	
-	public void reg(String title, String content ) {
-		dao.reg(title, content);
+	public void reg(String title, String content, int num ) {
+		dao.reg(title, content, num);
 	}
 	
 	public int getPostCount() {
@@ -53,5 +53,13 @@ public class UserService {
 
 	public ArrayList<Post> getPost(){
 		return dao.getPost();
+	}
+	
+	public ArrayList<Post> getPost(int page) {
+		return dao.getPost(page);
+	}
+	
+	public Post getPostDetail(int bidx) {
+		return dao.getPostDetail(bidx);
 	}
 }

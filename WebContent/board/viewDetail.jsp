@@ -25,21 +25,21 @@ margin: 0 auto;
 <div>
 	<table>
 		<tr>
-			<th align="center">${title }</th>
+			<th align="center">${Post.b_title }</th>
 		</tr>
 		<tr>
-			<td align="right">${post.b_writer}</td>
+			<td align="right">${Post.b_writer}</td>
 		</tr>
 		<tr>
-			<td align="right">${post.b_date}</td>
+			<td align="right">${Post.b_date}</td>
 		</tr>
 		<tr>
-			<td align="center">${content}</td>
+			<td align="center">${Post.b_content}</td>
 		</tr>
 	</table>
 </div>
 <div>
-	<button type="button" onclick="location.href='/lcomputerstudy/board-list.do'">돌아가기</button>
+	<button type="button" onclick="location.href='board-list.do'">돌아가기</button>
 </div>
 </body>
 </html>

@@ -143,7 +143,6 @@ public class UserDAO {
 			
 			while(rs.next()) {
 				User user = new User();
-				//user.setRownum(rs.getInt(("RowNum")));
 				user.setRownum(rs.getInt("ROWNUM"));
 				user.setU_idx(rs.getInt("u_idx"));
 				user.setU_id(rs.getString(("u_id")));
@@ -201,7 +200,7 @@ public class UserDAO {
 		return user;
 	}
 	
-	public void reg(String title, String content) {
+	public void reg(String title, String content, int num) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -209,7 +208,7 @@ public class UserDAO {
 			conn = DBConnection.getConnection();
 			String sql = "INSERT INTO test (b_idx, b_title, b_content, b_date, b_writer) values(?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, 2 );
+			pstmt.setInt(1, num );
 			pstmt.setString(2, title);
 			pstmt.setString(3, content);
 			pstmt.setString(4, " " );
@@ -273,10 +272,107 @@ public class UserDAO {
 					Post post = new Post();
 					post.setB_idx(rs.getInt("b_idx"));
 					post.setB_title(rs.getString("b_title"));
-					
+					post.setB_content(rs.getString("b_content"));
+					post.setB_date(rs.getString("b_date"));
+					post.setB_writer(rs.getString("b_writer"));
+					list.add(post);
 			}
 			
-		} catch(Exception e) {}
+		} catch(Exception e) {
+			
+		} finally {
+				try {
+					rs.close();
+					pstmt.close();
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+		}
 		return list;
 	} 
+	
+	public ArrayList<Post> getPost(int page) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<Post> list = null;
+		int pageNum = (page-1)*3;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = new StringBuilder()
+					.append("select @rownum := @rownum-1 as rownum,\n")
+					.append("    ta.*\n")
+					.append("from test ta, \n")
+					.append("    (select @wrownum := (select count(*)-?+1 from test ta)) tb\n")
+					.append("limit   ?,3\n")
+					.toString();
+			System.out.println(query);
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, pageNum);
+			pstmt.setInt(2, pageNum);
+			rs = pstmt.executeQuery();
+			list = new ArrayList<Post>();
+			
+			while(rs.next()) {
+				Post post = new Post();
+				post.setROWNUM(rs.getInt("ROWNUM"));
+				post.setB_idx(rs.getInt("b_idx"));
+				post.setB_title(rs.getString("b_title"));
+				post.setB_content(rs.getString("b_content"));
+				post.setB_date(rs.getString("b_date"));
+				post.setB_writer(rs.getString("b_writer"));
+				list.add(post);
+			}
+		} catch (Exception e) {
+			
+		}finally {
+			try {
+				if(rs !=null) rs.close();
+				if(pstmt !=null) pstmt.close();
+				if(conn !=null) conn.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} return list;
+		
+	} 
+	
+	public Post getPostDetail(int bidx) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Post post = new Post();
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "SELECT * FROM test WHERE b_idx = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bidx);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				post.setB_idx(bidx);
+				post.setB_title(rs.getString("b_title"));
+				post.setB_content(rs.getString("b_content"));
+				post.setB_date(rs.getString("b_date"));
+				post.setB_writer(rs.getString("b_writer"));
+			}
+			System.out.println(post.getB_content());
+		} catch(Exception e) {
+			
+		}finally {
+			try {
+				if(rs !=null) rs.close();
+				if(pstmt !=null) pstmt.close();
+				if(conn !=null) conn.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} return post ;
+	}
 }

@@ -62,50 +62,38 @@ li {
 				<th align="center" width="10%">작성일</th>
 				<th align="center" width="10%">조회수</th>
 			</tr>
-			<tr>
-				<td>1</td>
-				<td>제목입니다.</td>
-				<td>관리자</td>
-				<td>2021-11-09</td>
-				<td>0</td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>제목입니다.</td>
-				<td>관리자</td>
-				<td>2021-11-09</td>
-				<td>0</td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>제목입니다.</td>
-				<td>관리자</td>
-				<td>2021-11-09</td>
-				<td>0</td>
-			</tr>
-			<tr>
-				<td>1</td>
-				<td>제목입니다.</td>
-				<td>관리자</td>
-				<td>2021-11-09</td>
-				<td>0</td>
-			</tr>
+			<c:forEach items="${plist}" var="item"  varStatus="status">
+				<tr>
+					<td>${item.b_idx}</td>
+					<td><a href="board-view.do?b_idx=${item.b_idx}"> ${item.b_title}</a></td>
+					<td>${item.b_writer}</td>
+					<td>${item.b_date}</td>
+					<td></td>
+				</tr>
+			</c:forEach>
 		</table>
 	</div>
 	
 	<div>
-		<p align="right">0/0</p>
+		<p align="right">${Bpagination.page}/${Bpagination.lastPage }</p>
 	</div>
 
 	<div>
-		<button type="button" onclick="location.href='reg.jsp'">글쓰기</button>
+		<button type="button" onclick="location.href='board/reg.jsp'">글쓰기</button>
 		<button>삭제</button>
 	</div>
 
 	<div>
 		<ul>
 			<c:forEach var="i" begin="${Bpagination.startPage }" end="${Bpagination.endPage }" step="1">
-			
+				<c:choose>
+					<c:when test="${i==Bpagination.page}">
+						<span style= "font-weight:bold;">${i}</span>
+					</c:when>
+					<c:when test= "${i!=Bpagination.page }">
+						<span><a href="board-list.do?page=${i}">${i}</a></span>
+					</c:when>
+				</c:choose>
 			</c:forEach>
 		</ul>
 	</div>

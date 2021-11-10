@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.lcomputerstudy.testmvc.service.UserService;
+import com.lcomputerstudy.testmvc.vo.Bpagination;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.User;
@@ -112,25 +113,56 @@ public class Controller extends HttpServlet {
 
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-
-			UserService userservice = UserService.getInstance();
-			userservice.reg(title, content);
+			String num_ = request.getParameter("num");
+			int num  = Integer.parseInt(num_);
+			
+			userService = UserService.getInstance();
+			userService.reg(title, content, num);
 			Post post = new Post();
 			
 			request.setAttribute("title", title);
 			request.setAttribute("content", content);
+			request.setAttribute("num", num);
 			request.setAttribute("post", post);
 			
 			view = "/board/view";
 			break;
 			
-		case "/board/list.do" :
+		case "/board-list.do" :
 			
+			String page_=request.getParameter("page");
+			if(page_ !=null)
+				page= Integer.parseInt(page_);
+			else page=1;
+			
+			userService = UserService.getInstance();
+			ArrayList<Post> plist = userService.getPost(page);
+			userService.getPostCount();
+			Bpagination Bpagination = new Bpagination(page);
+			
+			request.setAttribute("Bpagination", Bpagination);
+			request.setAttribute("plist", plist);
+		
 			view = "/board/list";
 			break;
-
 			
+		case "/board-view.do" :
+			
+			String idx_ = request.getParameter("b_idx");
+			int bidx = Integer.parseInt(idx_);
+			Post Post = new Post();
+			
+			userService = UserService.getInstance();
+			Post = userService.getPostDetail(bidx);
+		
+			request.setAttribute("Post", Post);
+			System.out.println(Post.getB_content());
+			
+			view = "/board/viewDetail";
+			break;
 		}
+		
+			
 		
 
 
