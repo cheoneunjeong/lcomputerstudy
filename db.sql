@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY (`b_idx`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 jung.test:~8 rows (대략적) 내보내기
+-- 테이블 데이터 jung.test:~9 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
 INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `b_writer`) VALUES
 	(18, '수정1', 'ㅅㅈㅅㅈ', '2000-10-10 00:00:00', 'fg'),
