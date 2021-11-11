@@ -9,7 +9,7 @@
 </head>
 <style>
 div {
-	width: 60%;
+	width: 70%;
 	margin:0 auto;
 }
 table tr, th, td {
@@ -54,33 +54,36 @@ li {
 		<h3 align="center">게시판 목록</h3>
 	</div>
 	<div>
+	<form action="board-checkdelete.do" method="post">
 		<table>
 			<tr>
-				<th align="center" width="10%">No.</th>
-				<th align="center" width="60%">제목</th>
+				<th align="center" width="5%">No.</th>
+				<th align="center" width="50%">제목</th>
 				<th align="center" width="10%">작성자</th>
-				<th align="center" width="10%">작성일</th>
+				<th align="center" width="15%">작성일</th>
 				<th align="center" width="10%">조회수</th>
+				<th align="center" width="10%">일괄삭제</th>
 			</tr>
+			
 			<c:forEach items="${plist}" var="item"  varStatus="status">
+				
 				<tr>
 					<td>${item.b_idx}</td>
 					<td><a href="board-view.do?b_idx=${item.b_idx}"> ${item.b_title}</a></td>
 					<td>${item.b_writer}</td>
 					<td>${item.b_date}</td>
 					<td></td>
+					<td><input type="checkbox" name="del-id" value="${item.b_idx}" ></td>
 				</tr>
 			</c:forEach>
-		</table>
-	</div>
-	
-	<div>
-		<p align="right">${Bpagination.page}/${Bpagination.lastPage }</p>
-	</div>
 
-	<div>
+		</table>
+
+		<p align="right">${Bpagination.page}/${Bpagination.lastPage }</p>
+
 		<button type="button" onclick="location.href='board/reg.jsp'">글쓰기</button>
-		<button>삭제</button>
+		<span><input type="submit" value="삭제"></span>
+		</form>
 	</div>
 
 	<div>

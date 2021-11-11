@@ -71,4 +71,8 @@ public class UserService {
 		dao.fixPost(title, content, Bidx);
 	}
 	
+	public void checkdelete(String[] delIds) {
+		dao.checkdelete(delIds);
+	}
+	
 }

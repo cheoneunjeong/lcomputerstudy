@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.database.DBConnection;
 import com.lcomputerstudy.testmvc.vo.Post;
@@ -131,8 +133,10 @@ public class UserDAO {
 
 		try {
 			conn = DBConnection.getConnection();
-			String query = new StringBuilder().append("SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM,\n")
-					.append("           ta.*\n").append("FROM       user ta, \n")
+			String query = new StringBuilder()
+					.append("SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM,\n")
+					.append("           ta.*\n")
+					.append("FROM       user ta, \n")
 					.append("           (SELECT @rownum := (SELECT COUNT(*)-?+1 FROM user ta)) tb\n")
 					.append("LIMIT      ?, 3\n").toString();
 			System.out.println(query);
@@ -210,6 +214,10 @@ public class UserDAO {
 	public void reg(String title, String content) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd \n hh:mm:ss");
+		String time = fm.format(timestamp);
 
 		try {
 			conn = DBConnection.getConnection();
@@ -217,7 +225,7 @@ public class UserDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, title);
 			pstmt.setString(2, content);
-			pstmt.setString(3, "2000-10-10");
+			pstmt.setString(3, time);
 			pstmt.setString(4, "");
 			int rr= pstmt.executeUpdate();
 			System.out.println(rr);
@@ -314,9 +322,13 @@ public class UserDAO {
 
 		try {
 			conn = DBConnection.getConnection();
-			String query = new StringBuilder().append("select @rownum := @rownum-1 as rownum,\n").append("    ta.*\n")
+			String query = new StringBuilder()
+					.append("select @rownum := @rownum-1 as rownum,\n")
+					.append("    ta.*\n")
 					.append("from test ta, \n")
-					.append("    (select @wrownum := (select count(*)-?+1 from test ta)) tb\n").append("limit   ?,3\n")
+					.append("    (select @rownum := (select count(*)-?+1 from test ta)) tb\n")
+					.append("ORDER BY b_idx desc\n")
+					.append("limit   ?,3\n")
 					.toString();
 			System.out.println(query);
 
@@ -426,13 +438,18 @@ public class UserDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd \n hh:mm:ss");
+		String time = fm.format(timestamp);
+
+		
 		try {
 			conn = DBConnection.getConnection();
 			String query = "UPDATE test SET b_title=?, b_content=?, b_date=? WHERE b_idx=?";
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, title);
 			pstmt.setString(2, content);
-			pstmt.setString(3, "2000-10-10");
+			pstmt.setString(3, time);
 			pstmt.setInt(4, Bidx);
 			int r= pstmt.executeUpdate();
 			System.out.println(r);
@@ -449,6 +466,38 @@ public class UserDAO {
 
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void checkdelete(String[] delIds) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		for(String delId_ : delIds) {
+			
+			int delId = Integer.parseInt(delId_);
+			
+			try {
+				conn = DBConnection.getConnection();
+				String query = "DELETE FROM test WHERE b_idx = ?";
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, delId);
+				int r = pstmt.executeUpdate();
+				System.out.println(r);
+			} catch (Exception e) {
+
+			} finally {
+				try {
+					if (pstmt != null)
+						pstmt.close();
+					if (conn != null)
+						conn.close();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

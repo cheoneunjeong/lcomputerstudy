@@ -116,11 +116,6 @@ public class Controller extends HttpServlet {
 			
 			userService = UserService.getInstance();
 			userService.reg(title, content);
-			Post post = new Post();
-			
-			request.setAttribute("title", title);
-			request.setAttribute("content", content);
-			request.setAttribute("post", post);
 			
 			view = "/board/regRs";
 			break;
@@ -149,7 +144,7 @@ public class Controller extends HttpServlet {
 			int bidx = Integer.parseInt(idx_);
 			
 			userService = UserService.getInstance();
-			post = userService.getPostDetail(bidx);
+			Post post = userService.getPostDetail(bidx);
 		
 			request.setAttribute("Post", post);
 			System.out.println(post.getB_content());
@@ -166,6 +161,19 @@ public class Controller extends HttpServlet {
 			
 			userService = UserService.getInstance();
 			userService.deletePost(Bidx);
+			
+			view = "/board/delete";
+			
+			break;
+			
+			
+		case "/board-checkdelete.do":
+			
+			String[] delIds = request.getParameterValues("del-id");
+			request.setAttribute("delIds", delIds);
+			
+			userService = UserService.getInstance();
+			userService.checkdelete(delIds);
 			
 			view = "/board/delete";
 			

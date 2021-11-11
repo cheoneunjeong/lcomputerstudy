@@ -22,25 +22,23 @@ CREATE TABLE IF NOT EXISTS `test` (
   `b_idx` int(10) NOT NULL AUTO_INCREMENT,
   `b_title` varchar(255) NOT NULL,
   `b_content` varchar(255) NOT NULL,
-  `b_date` varchar(255) NOT NULL,
+  `b_date` datetime NOT NULL,
   `b_writer` varchar(255) NOT NULL,
+  `u_idx` int(10) DEFAULT NULL,
   PRIMARY KEY (`b_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 jung.test:~10 rows (대략적) 내보내기
+-- 테이블 데이터 jung.test:~5 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
-INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `b_writer`) VALUES
-	(4, 'asda', 'zdbgf', ' ', ' '),
-	(5, 'qatqa', 'aga', ' ', ' '),
-	(6, 'qqq', 'werfh', ' ', ' '),
-	(7, '안녕', 'zxczxc', ' ', ' '),
-	(8, 'bb', 'qweqweq', ' ', ' '),
-	(9, 'ss', 'qwertyul', ' ', ' '),
-	(10, 'qweqwe', 'zxcxz', ' ', ' '),
-	(11, 'rr', 'bvcxz', ' ', ' ');
+INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `b_writer`, `u_idx`) VALUES
+	(23, 'qqqqqqqqq', 'qqqqq', '2000-10-10 00:00:00', '', 0),
+	(24, 'aaaqqq', 'qqqqqqqqq', '2000-10-10 00:00:00', '', 0),
+	(25, 'xxxx', 'xxxxxxx', '2000-10-10 00:00:00', '', 0),
+	(26, 'ccc', 'cccccccc', '2000-10-10 00:00:00', '', 0),
+	(27, 'xxxxxccccccc', 'xxx', '2000-10-10 00:00:00', '', 0);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;information_schema
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
