@@ -113,19 +113,16 @@ public class Controller extends HttpServlet {
 
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-			String num_ = request.getParameter("num");
-			int num  = Integer.parseInt(num_);
 			
 			userService = UserService.getInstance();
-			userService.reg(title, content, num);
+			userService.reg(title, content);
 			Post post = new Post();
 			
 			request.setAttribute("title", title);
 			request.setAttribute("content", content);
-			request.setAttribute("num", num);
 			request.setAttribute("post", post);
 			
-			view = "/board/view";
+			view = "/board/regRs";
 			break;
 			
 		case "/board-list.do" :
@@ -150,13 +147,12 @@ public class Controller extends HttpServlet {
 			
 			String idx_ = request.getParameter("b_idx");
 			int bidx = Integer.parseInt(idx_);
-			Post Post = new Post();
 			
 			userService = UserService.getInstance();
-			Post = userService.getPostDetail(bidx);
+			post = userService.getPostDetail(bidx);
 		
-			request.setAttribute("Post", Post);
-			System.out.println(Post.getB_content());
+			request.setAttribute("Post", post);
+			System.out.println(post.getB_content());
 			
 			view = "/board/viewDetail";
 			break;
@@ -171,12 +167,39 @@ public class Controller extends HttpServlet {
 			userService = UserService.getInstance();
 			userService.deletePost(Bidx);
 			
-			view = "/board/DeleteResult";
+			view = "/board/delete";
 			
 			break;
 			
-		}
+		case "/board-fix.do" :
+			
+			Bidx_ = request.getParameter("b_idx");
+			Bidx = Integer.parseInt(Bidx_);
+			
+			request.setAttribute("Bidx", Bidx);
+			
+			view = "/board/fix"; 
+			break;
+			
+		case "/board-fix2.do" :
+			
+			title = request.getParameter("title");
+			content = request.getParameter("content");
+			Bidx_ = request.getParameter("idx");
+			Bidx = Integer.parseInt(Bidx_);
+			
+			request.setAttribute("title", title);
+			request.setAttribute("content", content);
+			request.setAttribute("Bidx", Bidx);
+			
+			userService = UserService.getInstance();
+			userService.fixPost(title, content, Bidx);
 
+			view = "/board/fixRs";
+			break;
+			
+		}
+		
 		RequestDispatcher rd = request.getRequestDispatcher(view + ".jsp");
 		rd.forward(request, response);
 	}

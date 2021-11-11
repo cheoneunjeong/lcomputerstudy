@@ -43,8 +43,8 @@ public class UserService {
 		return dao.loginUser(idx,pw);
 	}
 	
-	public void reg(String title, String content, int num ) {
-		dao.reg(title, content, num);
+	public void reg(String title, String content) {
+		dao.reg(title, content);
 	}
 	
 	public int getPostCount() {
@@ -66,4 +66,9 @@ public class UserService {
 	public void deletePost(int Bidx) {
 		dao.deletePost(Bidx);
 	}
+	
+	public void fixPost(String title, String content, int Bidx) {
+		dao.fixPost(title, content, Bidx);
+	}
+	
 }

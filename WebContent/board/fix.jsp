@@ -14,15 +14,16 @@
 	}
 </style>
 <body>
-<h2 align="center">글작성</h2>
+<h2 align="center">수정</h2>
 <div>
 <fieldset>
-<form action="reg.do" method="post">
-	<p> 제목 <input type="text" name="title"> </p>
+<form action="board-fix2.do" method="post">
+	<p> 제목 <input type="text" name="title" > </p>
+	<p> 번호 : ${Bidx} <input type="hidden" name="idx" value = "${Bidx}"> </p>
 	내용<br>
 	<textarea rows="20" cols="50" name="content"></textarea>
 	<br>
-	<span> <input type="submit" value="등록"> </span>
+	<span> <input type="submit" value="수정하기"> </span>
 	<button type="button" onclick="location.href='/lcomputerstudy/board-list.do'">돌아가기</button>
 </form>
 </fieldset>

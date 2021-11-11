@@ -207,20 +207,21 @@ public class UserDAO {
 		return user;
 	}
 
-	public void reg(String title, String content, int num) {
+	public void reg(String title, String content) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "INSERT INTO test (b_idx, b_title, b_content, b_date, b_writer) values(?,?,?,?,?)";
+			String sql = "INSERT INTO test (b_title, b_content, b_date, b_writer) VALUES(?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
-			pstmt.setString(2, title);
-			pstmt.setString(3, content);
-			pstmt.setString(4, " ");
-			pstmt.setString(5, " ");
-			pstmt.executeUpdate();
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setString(3, "2000-10-10");
+			pstmt.setString(4, "");
+			int rr= pstmt.executeUpdate();
+			System.out.println(rr);
+			
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
 		} finally {
@@ -234,7 +235,7 @@ public class UserDAO {
 			}
 		}
 	}
-
+	
 	public int getPostCount() {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -405,6 +406,37 @@ public class UserDAO {
 			pstmt.setInt(1, Bidx);
 			int r = pstmt.executeUpdate();
 			System.out.println(r);
+			
+		} catch (Exception e) {
+
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void fixPost(String title, String content, int Bidx) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConnection.getConnection();
+			String query = "UPDATE test SET b_title=?, b_content=?, b_date=? WHERE b_idx=?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setString(3, "2000-10-10");
+			pstmt.setInt(4, Bidx);
+			int r= pstmt.executeUpdate();
+			System.out.println(r);
+			
 			
 		} catch (Exception e) {
 
