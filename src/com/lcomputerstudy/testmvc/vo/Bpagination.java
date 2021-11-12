@@ -1,6 +1,6 @@
 package com.lcomputerstudy.testmvc.vo;
 
-import com.lcomputerstudy.testmvc.service.UserService;
+import com.lcomputerstudy.testmvc.service.BoardService;
 
 public class Bpagination {
 
@@ -15,7 +15,7 @@ public class Bpagination {
 	int nextPage;
 	public static final int pageUnit=5;
 	public static final int perPage=3;
-	UserService userService = null;
+	BoardService boardService = null;
 	
 	public Bpagination() {
 		
@@ -23,8 +23,8 @@ public class Bpagination {
 	
 	public Bpagination(int page) {
 		this.page = page;
-		userService = UserService.getInstance();
-		postCount = userService.getPostCount();
+		boardService = BoardService.getInstance();
+		postCount = boardService.getPostCount();
 		startPage = ((page-1)/pageUnit)*pageUnit+1;
 		lastPage = (int)Math.ceil(postCount/(float)perPage);
 		endPage = startPage+pageUnit-1;

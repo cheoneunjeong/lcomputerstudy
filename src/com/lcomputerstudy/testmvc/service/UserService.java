@@ -2,7 +2,6 @@ package com.lcomputerstudy.testmvc.service;
 
 import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.dao.UserDAO;
-import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.User;
 
 public class UserService {
@@ -41,38 +40,6 @@ public class UserService {
 	
 	public User loginUser(String idx, String pw) {
 		return dao.loginUser(idx,pw);
-	}
-	
-	public void reg(String title, String content) {
-		dao.reg(title, content);
-	}
-	
-	public int getPostCount() {
-		return dao.getPostCount();
-	}
-
-	public ArrayList<Post> getPost(){
-		return dao.getPost();
-	}
-	
-	public ArrayList<Post> getPost(int page) {
-		return dao.getPost(page);
-	}
-	
-	public Post getPostDetail(int bidx) {
-		return dao.getPostDetail(bidx);
-	}
-	
-	public void deletePost(int Bidx) {
-		dao.deletePost(Bidx);
-	}
-	
-	public void fixPost(String title, String content, int Bidx) {
-		dao.fixPost(title, content, Bidx);
-	}
-	
-	public void checkdelete(String[] delIds) {
-		dao.checkdelete(delIds);
 	}
 	
 }

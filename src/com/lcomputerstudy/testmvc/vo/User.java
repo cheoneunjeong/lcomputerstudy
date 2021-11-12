@@ -65,5 +65,5 @@ public class User {
 	public void setRownum(int Rownum) {
 		this.ROWNUM = Rownum;
 	}
-	
+
 }

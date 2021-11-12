@@ -1,6 +1,7 @@
 package com.lcomputerstudy.testmvc.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.lcomputerstudy.testmvc.service.BoardService;
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Bpagination;
 import com.lcomputerstudy.testmvc.vo.Pagination;
@@ -34,13 +36,17 @@ public class Controller extends HttpServlet {
 		String contextPath = request.getContextPath();
 		String command = requestURI.substring(contextPath.length());
 		String view = null;
+		String url = null;
 
 		command = checkSession(request, response, command);
 
-		int usercount = 0;
 		int page = 1;
 		String pw = null;
 		String idx = null;
+		Post post = null;
+		HttpSession session = null;
+		User user = null;
+		BoardService boardService = null;
 
 		switch (command) {
 		case "/user-list.do":
@@ -63,7 +69,7 @@ public class Controller extends HttpServlet {
 			break;
 
 		case "/user-insert-process.do":
-			User user = new User();
+			user = new User();
 			user.setU_id(request.getParameter("id"));
 			user.setU_pw(request.getParameter("password"));
 			user.setU_name(request.getParameter("name"));
@@ -89,7 +95,7 @@ public class Controller extends HttpServlet {
 			user = userService.loginUser(idx, pw);
 
 			if (user != null) {
-				HttpSession session = request.getSession();
+				session = request.getSession();
 				session.setAttribute("user", user);
 
 				view = "/user/login-result";
@@ -99,7 +105,7 @@ public class Controller extends HttpServlet {
 			break;
 
 		case "/user/logout.do":
-			HttpSession session = request.getSession();
+			session = request.getSession();
 			session.invalidate();
 
 			view = "/user/login";
@@ -110,12 +116,22 @@ public class Controller extends HttpServlet {
 			break;
 
 		case "/board/reg.do":
-
-			String title = request.getParameter("title");
-			String content = request.getParameter("content");
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
+				}
+				
+			user = (User)session.getAttribute("user");
 			
-			userService = UserService.getInstance();
-			userService.reg(title, content);
+			post = new Post();
+			post.setB_title(request.getParameter("title"));
+			post.setB_content(request.getParameter("content"));
+			post.setB_date_timestamp(new Timestamp(System.currentTimeMillis()));
+			post.setU_idx(user.getU_idx());
+		
+			boardService = BoardService.getInstance();
+			boardService.reg(post);
 			
 			view = "/board/regRs";
 			break;
@@ -127,9 +143,9 @@ public class Controller extends HttpServlet {
 				page= Integer.parseInt(page_);
 			else page=1;
 			
-			userService = UserService.getInstance();
-			ArrayList<Post> plist = userService.getPost(page);
-			userService.getPostCount();
+			boardService = BoardService.getInstance();
+			ArrayList<Post> plist = boardService.getPost(page);
+			boardService.getPostCount();
 			Bpagination Bpagination = new Bpagination(page);
 			
 			request.setAttribute("Bpagination", Bpagination);
@@ -142,9 +158,9 @@ public class Controller extends HttpServlet {
 			
 			String idx_ = request.getParameter("b_idx");
 			int bidx = Integer.parseInt(idx_);
-			
-			userService = UserService.getInstance();
-			Post post = userService.getPostDetail(bidx);
+
+			boardService = BoardService.getInstance();
+			post = boardService.getPostDetail(bidx);
 		
 			request.setAttribute("Post", post);
 			System.out.println(post.getB_content());
@@ -159,8 +175,8 @@ public class Controller extends HttpServlet {
 			
 			System.out.println(Bidx);
 			
-			userService = UserService.getInstance();
-			userService.deletePost(Bidx);
+			boardService = BoardService.getInstance();
+			boardService.deletePost(Bidx);
 			
 			view = "/board/delete";
 			
@@ -172,8 +188,8 @@ public class Controller extends HttpServlet {
 			String[] delIds = request.getParameterValues("del-id");
 			request.setAttribute("delIds", delIds);
 			
-			userService = UserService.getInstance();
-			userService.checkdelete(delIds);
+			boardService = BoardService.getInstance();
+			boardService.checkdelete(delIds);
 			
 			view = "/board/delete";
 			
@@ -181,8 +197,7 @@ public class Controller extends HttpServlet {
 			
 		case "/board-fix.do" :
 			
-			Bidx_ = request.getParameter("b_idx");
-			Bidx = Integer.parseInt(Bidx_);
+			Bidx = Integer.parseInt(request.getParameter("b_idx"));
 			
 			request.setAttribute("Bidx", Bidx);
 			
@@ -190,26 +205,37 @@ public class Controller extends HttpServlet {
 			break;
 			
 		case "/board-fix2.do" :
+	
+			System.out.println(new Timestamp(System.currentTimeMillis()));
 			
-			title = request.getParameter("title");
-			content = request.getParameter("content");
-			Bidx_ = request.getParameter("idx");
-			Bidx = Integer.parseInt(Bidx_);
+			post = new Post();
+			post.setB_title(request.getParameter("title"));
+			post.setB_content(request.getParameter("content"));
+			post.setU_idx(Integer.parseInt(request.getParameter("idx")));
+			post.setB_date_timestamp(new Timestamp(System.currentTimeMillis()));
 			
-			request.setAttribute("title", title);
-			request.setAttribute("content", content);
-			request.setAttribute("Bidx", Bidx);
+			System.out.println(new Timestamp(System.currentTimeMillis()));
+	
+			request.setAttribute("post", post);
 			
-			userService = UserService.getInstance();
-			userService.fixPost(title, content, Bidx);
+			boardService = BoardService.getInstance();
+			boardService.fixPost(post);
 
 			view = "/board/fixRs";
 			break;
 			
 		}
+			
+		if(view==null)
+			response.sendRedirect(url);
 		
-		RequestDispatcher rd = request.getRequestDispatcher(view + ".jsp");
-		rd.forward(request, response);
+		else {
+			
+			RequestDispatcher rd = request.getRequestDispatcher(view + ".jsp");
+					rd.forward(request, response);
+		}
+		
+		
 	}
 
 	String checkSession(HttpServletRequest request, HttpServletResponse response, String command) {

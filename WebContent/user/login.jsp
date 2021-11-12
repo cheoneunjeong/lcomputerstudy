@@ -7,12 +7,13 @@
 <title>로그인</title>
 </head>
 <body>
-<h1>로그인</h1>
+<h1>로그인</h1> 
 <form action="/lcomputerstudy/user-login-process.do" name="user" method="post">
 	<p> 아이디 : <input type="text" name="login_id">
 	</p>
 	<p> 비밀번호 : <input type="password" name="login_password"></p>
-	<p> <input type="submit" value="로그인"></p>
+	<p> <input type="submit" value="로그인"> </p>
 </form>
+<button type ="button" onclick="location.href='/lcomputerstudy/newjoin.jsp'">회원가입</button>
 </body>
 </html>

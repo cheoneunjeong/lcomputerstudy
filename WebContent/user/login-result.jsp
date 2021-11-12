@@ -47,6 +47,7 @@ ${sessionScope.user.u_name }님
 <div>
 	<ul>
 		<li><a href="/lcomputerstudy/user-list.do">회원 목록</a></li>
+		<li><a href="/lcomputerstudy/board-list.do">게시판</a></li>
 		<li><a href="user/logout.do">로그아웃</a></li>
 	</ul>
 </div>

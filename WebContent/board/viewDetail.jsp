@@ -8,7 +8,7 @@
 </head>
 <style>
 div {
-width: 70%;
+width: 50%;
 margin: 0 auto;
 }
 	table {
@@ -28,7 +28,7 @@ margin: 0 auto;
 			<th align="center">${Post.b_title }</th>
 		</tr>
 		<tr>
-			<td align="right">${Post.b_writer}</td>
+			<td align="right">${Post.u_idx}  조회수 : ${Post.b_hit}</td>
 		</tr>
 		<tr>
 			<td align="right">${Post.b_date}</td>
@@ -39,6 +39,7 @@ margin: 0 auto;
 	</table>
 </div>
 <div>
+<br>
 	<button type="button" onclick="location.href='board-fix.do?b_idx=${Post.b_idx}'">수정</button>
 	<button type="button" onclick="location.href='board-delete.do?b_idx=${Post.b_idx}'">삭제</button>
 	<button type="button" onclick="location.href='board-list.do'">돌아가기</button>

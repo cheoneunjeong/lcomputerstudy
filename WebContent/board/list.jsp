@@ -9,7 +9,7 @@
 </head>
 <style>
 div {
-	width: 70%;
+	width: 60%;
 	margin:0 auto;
 }
 table tr, th, td {
@@ -60,9 +60,9 @@ li {
 				<th align="center" width="5%">No.</th>
 				<th align="center" width="50%">제목</th>
 				<th align="center" width="10%">작성자</th>
-				<th align="center" width="15%">작성일</th>
+				<th align="center" width="20%">작성일</th>
 				<th align="center" width="10%">조회수</th>
-				<th align="center" width="10%">일괄삭제</th>
+				<th align="center" width="5%">일괄삭제</th>
 			</tr>
 			
 			<c:forEach items="${plist}" var="item"  varStatus="status">
@@ -70,9 +70,9 @@ li {
 				<tr>
 					<td>${item.b_idx}</td>
 					<td><a href="board-view.do?b_idx=${item.b_idx}"> ${item.b_title}</a></td>
-					<td>${item.b_writer}</td>
+					<td>${item.u_idx}</td>
 					<td>${item.b_date}</td>
-					<td></td>
+					<td>${item.hit}</td>
 					<td><input type="checkbox" name="del-id" value="${item.b_idx}" ></td>
 				</tr>
 			</c:forEach>
@@ -83,6 +83,7 @@ li {
 
 		<button type="button" onclick="location.href='board/reg.jsp'">글쓰기</button>
 		<span><input type="submit" value="삭제"></span>
+		<button type="button" onclick="location.href='user/login-result.jsp'">돌아가기</button>
 		</form>
 	</div>
 
