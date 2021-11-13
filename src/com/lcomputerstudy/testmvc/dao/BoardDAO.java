@@ -140,7 +140,6 @@ public class BoardDAO {
 					.append("ORDER BY b_idx desc\n")
 					.append("limit   ?,3\n")
 					.toString();
-			System.out.println(query);
 
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, pageNum);
@@ -190,6 +189,7 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, bidx);
 			rs = pstmt.executeQuery();
+			System.out.println(rs);
 
 			while (rs.next()) {
 				post.setB_idx(bidx);
@@ -197,8 +197,9 @@ public class BoardDAO {
 				post.setB_content(rs.getString("b_content"));
 				post.setB_date(rs.getString("b_date"));
 				post.setU_idx(rs.getInt("u_idx"));
+				post.setHit(rs.getInt("b_hit"));
 			}
-			System.out.println(post.getB_content());
+			
 		} catch (Exception e) {
 
 		} finally {

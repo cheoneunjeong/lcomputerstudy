@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.lcomputerstudy.testmvc.dao.BoardHitDAO;
 import com.lcomputerstudy.testmvc.service.BoardService;
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.Bpagination;
@@ -37,7 +38,7 @@ public class Controller extends HttpServlet {
 		String command = requestURI.substring(contextPath.length());
 		String view = null;
 		String url = null;
-
+		
 		command = checkSession(request, response, command);
 
 		int page = 1;

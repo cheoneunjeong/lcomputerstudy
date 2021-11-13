@@ -2,6 +2,7 @@ package com.lcomputerstudy.testmvc.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import com.lcomputerstudy.testmvc.database.DBConnection;
 
@@ -20,18 +21,31 @@ public class BoardHitDAO {
 		return hitdao;
 	}
 	
-	public void insert() {
+	public void insertHit(int bidx) {
+		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
-//		try {
-//			conn = DBConnection.getConnection();
-//			String query = "UPDATE board SET hit = hit+1 WHERE b_idx = ?";
-//			pstmt = conn.prepareStatement(query);
-//			pstmt.setInt(1, bidx);/  board-delete.do에 있는 bidx
+		try {
+			conn = DBConnection.getConnection();
+			String query = "UPDATE test SET b_hit = b_hit+1 WHERE b_idx = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bidx);
+			int r = pstmt.executeUpdate();
+			System.out.println(r);
+
+		} catch (Exception e) {
 		
-//
-//		}
+		} finally {
+			try {
+				if(pstmt != null)
+					pstmt.close();
+				if(conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

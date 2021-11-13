@@ -40,10 +40,15 @@ public class BoardService {
 	}
 	
 	public ArrayList<Post> getPost(int page) {
+		
+
 		return dao.getPost(page);
 	}
 	
 	public Post getPostDetail(int bidx) {
+		
+		hitdao.insertHit(bidx);
+		
 		return dao.getPostDetail(bidx);
 	}
 	
@@ -57,10 +62,6 @@ public class BoardService {
 	
 	public void checkdelete(String[] delIds) {
 		dao.checkdelete(delIds);
-	}
-	
-	public void hit(int idx) {
-		hitdao.insert();
 	}
 	
 }

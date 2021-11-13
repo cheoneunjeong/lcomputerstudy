@@ -28,7 +28,7 @@ margin: 0 auto;
 			<th align="center">${Post.b_title }</th>
 		</tr>
 		<tr>
-			<td align="right">${Post.u_idx}  조회수 : ${Post.b_hit}</td>
+			<td align="right">${Post.u_idx}  조회수 : ${Post.hit}</td>
 		</tr>
 		<tr>
 			<td align="right">${Post.b_date}</td>
