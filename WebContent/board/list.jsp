@@ -10,8 +10,9 @@
 <style>
 div {
 	width: 60%;
-	margin:0 auto;
+	margin: 0 auto;
 }
+
 table tr, th, td {
 	border: 1px solid #444444;
 }
@@ -46,55 +47,66 @@ li {
 	list-style: none;
 	text-align: center;
 }
-
-
 </style>
 <body>
 	<div>
 		<h3 align="center">게시판 목록</h3>
 	</div>
 	<div>
-	<form action="board-checkdelete.do" method="post">
-		<table>
-			<tr>
-				<th align="center" width="5%">No.</th>
-				<th align="center" width="50%">제목</th>
-				<th align="center" width="10%">작성자</th>
-				<th align="center" width="20%">작성일</th>
-				<th align="center" width="10%">조회수</th>
-				<th align="center" width="5%">일괄삭제</th>
-			</tr>
-			
-			<c:forEach items="${plist}" var="item"  varStatus="status">
-				
+		<form action="search.do" method="post" >
+			<select name="f">
+				<option value="title">제목</option>
+				<option value="u_idx">작성자</option>
+			</select> <input type="text" name="search">
+			<input type ="submit" value="검색">
+		</form>
+	</div>
+	<br>
+	<div>
+		<form action="board-checkdelete.do" method="post">
+			<table>
 				<tr>
-					<td>${item.b_idx}</td>
-					<td><a href="board-view.do?b_idx=${item.b_idx}"> ${item.b_title}</a></td>
-					<td>${item.u_idx}</td>
-					<td>${item.b_date}</td>
-					<td>${item.hit}</td>
-					<td><input type="checkbox" name="del-id" value="${item.b_idx}" ></td>
+					<th align="center" width="5%">No.</th>
+					<th align="center" width="50%">제목</th>
+					<th align="center" width="10%">작성자</th>
+					<th align="center" width="20%">작성일</th>
+					<th align="center" width="10%">조회수</th>
+					<th align="center" width="5%">일괄삭제</th>
 				</tr>
-			</c:forEach>
 
-		</table>
+				<c:forEach items="${plist}" var="item" varStatus="status">
 
-		<p align="right">${Bpagination.page}/${Bpagination.lastPage }</p>
+					<tr>
+						<td>${item.b_idx}</td>
+						<td><a href="board-view.do?b_idx=${item.b_idx}">
+								${item.b_title}</a></td>
+						<td>${item.u_idx}</td>
+						<td>${item.b_date}</td>
+						<td>${item.hit}</td>
+						<td><input type="checkbox" name="del-id"
+							value="${item.b_idx}"></td>
+					</tr>
+				</c:forEach>
 
-		<button type="button" onclick="location.href='board/reg.jsp'">글쓰기</button>
-		<span><input type="submit" value="삭제"></span>
-		<button type="button" onclick="location.href='user/login-result.jsp'">돌아가기</button>
+			</table>
+
+			<p align="right">${Bpagination.page}/${Bpagination.lastPage }</p>
+
+			<button type="button" onclick="location.href='board/reg.jsp'">글쓰기</button>
+			<span><input type="submit" value="삭제"></span>
+			<button type="button" onclick="location.href='user/login-result.jsp'">돌아가기</button>
 		</form>
 	</div>
 
 	<div>
 		<ul>
-			<c:forEach var="i" begin="${Bpagination.startPage }" end="${Bpagination.endPage }" step="1">
+			<c:forEach var="i" begin="${Bpagination.startPage }"
+				end="${Bpagination.endPage }" step="1">
 				<c:choose>
 					<c:when test="${i==Bpagination.page}">
-						<span style= "font-weight:bold;">${i}</span>
+						<span style="font-weight: bold;">${i}</span>
 					</c:when>
-					<c:when test= "${i!=Bpagination.page }">
+					<c:when test="${i!=Bpagination.page }">
 						<span><a href="board-list.do?page=${i}">${i}</a></span>
 					</c:when>
 				</c:choose>

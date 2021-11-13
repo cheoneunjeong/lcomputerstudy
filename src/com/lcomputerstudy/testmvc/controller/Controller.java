@@ -3,6 +3,7 @@ package com.lcomputerstudy.testmvc.controller;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -48,6 +49,7 @@ public class Controller extends HttpServlet {
 		HttpSession session = null;
 		User user = null;
 		BoardService boardService = null;
+		ArrayList<Post> list = null;
 
 		switch (command) {
 		case "/user-list.do":
@@ -56,7 +58,7 @@ public class Controller extends HttpServlet {
 				page = Integer.parseInt(reqPage);
 
 			UserService userService = UserService.getInstance();
-			ArrayList<User> list = userService.getUsers(page);
+			ArrayList<User> ulist = userService.getUsers(page);
 			Pagination pagination = new Pagination(page);
 
 			request.setAttribute("list", list);
@@ -145,12 +147,11 @@ public class Controller extends HttpServlet {
 			else page=1;
 			
 			boardService = BoardService.getInstance();
-			ArrayList<Post> plist = boardService.getPost(page);
-			boardService.getPostCount();
+			list = boardService.getPost(page);
 			Bpagination Bpagination = new Bpagination(page);
 			
 			request.setAttribute("Bpagination", Bpagination);
-			request.setAttribute("plist", plist);
+			request.setAttribute("plist", list);
 		
 			view = "/board/list";
 			break;
@@ -206,8 +207,6 @@ public class Controller extends HttpServlet {
 			break;
 			
 		case "/board-fix2.do" :
-	
-			System.out.println(new Timestamp(System.currentTimeMillis()));
 			
 			post = new Post();
 			post.setB_title(request.getParameter("title"));
@@ -215,8 +214,6 @@ public class Controller extends HttpServlet {
 			post.setU_idx(Integer.parseInt(request.getParameter("idx")));
 			post.setB_date_timestamp(new Timestamp(System.currentTimeMillis()));
 			
-			System.out.println(new Timestamp(System.currentTimeMillis()));
-	
 			request.setAttribute("post", post);
 			
 			boardService = BoardService.getInstance();
@@ -225,6 +222,35 @@ public class Controller extends HttpServlet {
 			view = "/board/fixRs";
 			break;
 			
+		case "/search.do" :
+			
+			page_=request.getParameter("page");
+			if(page_ !=null)
+				page= Integer.parseInt(page_);
+			else page=1;
+			
+			String f = request.getParameter("f");
+			String search = request.getParameter("search");
+			
+			boardService = BoardService.getInstance();
+			list = boardService.searchPost(page, f, search);
+			
+			for( Post posts : list) {
+			System.out.println(post.getB_content());
+			System.out.println(post.getB_date());
+			System.out.println(post.getB_idx());
+			System.out.println(post.getB_title());
+			} //List 에 안담김 post가 null 체크하기
+			
+			
+			Bpagination = new Bpagination(page);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("Bpagination", Bpagination);
+			
+			view = "/board/list";
+			
+			break;		
 		}
 			
 		if(view==null)

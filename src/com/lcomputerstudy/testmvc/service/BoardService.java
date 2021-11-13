@@ -63,5 +63,9 @@ public class BoardService {
 	public void checkdelete(String[] delIds) {
 		dao.checkdelete(delIds);
 	}
+
+	public ArrayList<Post> searchPost(int page, String f, String search) {
+		return dao.searchPost(page, f, search);
+	}
 	
 }

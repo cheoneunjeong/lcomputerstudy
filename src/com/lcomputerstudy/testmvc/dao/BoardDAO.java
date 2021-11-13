@@ -308,5 +308,60 @@ public class BoardDAO {
 			}
 		}
 	}
-	
+
+	public ArrayList<Post> searchPost(int page, String f, String search) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int pageNum = (page - 1) * 3;
+		ArrayList<Post> list = null;
+		
+		try {
+			conn= DBConnection.getConnection();
+			String query = new StringBuilder()
+					.append("SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM,\n")
+					.append("           ta.*\n")
+					.append("FROM       (SELECT * FROM test WHERE "+f+" = ? ) ta, \n")
+					.append("           (SELECT @ROWNUM := (SELECT COUNT(*)-?+1 FROM (SELECT * FROM test WHERE "+f+" = ?) ta)) tb\n")
+					.append("LIMIT ?,3")
+					.toString();
+			
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, search);
+			pstmt.setInt(2, pageNum);
+			pstmt.setString(3, search);
+			pstmt.setInt(4, pageNum);
+			rs = pstmt.executeQuery();
+			
+			list = new ArrayList<Post>();
+
+			while (rs.next()) {
+				Post post = new Post();
+				post.setROWNUM(rs.getInt("ROWNUM"));
+				post.setB_idx(rs.getInt("b_idx"));
+				post.setB_title(rs.getString("b_title"));
+				post.setB_content(rs.getString("b_content"));
+				post.setB_date(rs.getString("b_date"));
+				post.setU_idx(rs.getInt("u_idx"));
+				post.setHit(rs.getInt("b_hit"));
+				list.add(post);
+			}
+			
+		} catch (Exception e) {
+
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} return list;
+	}
+		
 }
+
