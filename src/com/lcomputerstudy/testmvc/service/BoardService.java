@@ -67,5 +67,9 @@ public class BoardService {
 	public ArrayList<Post> searchPost(int page, String f, String search) {
 		return dao.searchPost(page, f, search);
 	}
+
+	public int getSearchPostCount(String f, String search) {
+		return dao.getSearchPostCount(f,search);
+	}
 	
 }

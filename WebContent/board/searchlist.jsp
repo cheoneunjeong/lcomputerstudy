@@ -55,10 +55,10 @@ li {
 	<div>
 		<form action="search.do" method="post" >
 			<select name="f">
-				<option value="b_title">제목</option>
-				<option value="u_idx">작성자</option>
+				<option ${(f=="b_title")?"selected" : "" } value="b_title">제목</option>
+				<option ${(f=="u_idx")?"selected" : "" } value="u_idx">작성자</option>
 			</select> 
-			<input type="text" name="search">
+			<input type="text" name="search" value="${search}">
 			<input type ="submit" value="검색">
 		</form>
 	</div>
@@ -100,6 +100,7 @@ li {
 	</div>
 
 	<div>
+	<form action="search.do" method="post" >
 		<ul>
 			<c:forEach var="i" begin="${Bpagination.startPage }"
 				end="${Bpagination.endPage }" step="1">
@@ -108,11 +109,14 @@ li {
 						<span style="font-weight: bold;">${i}</span>
 					</c:when>
 					<c:when test="${i!=Bpagination.page }">
-						<span><a href="board-list.do?page=${i}">${i}</a></span>
+						<input type="hidden" name ="f" value="${f}">
+						<input type="hidden" name ="search" value="${search}">
+						<span><input type ="submit" name ="page" value="${i}"></span>
 					</c:when>
 				</c:choose>
 			</c:forEach>
 		</ul>
+		</form>
 	</div>
 </body>
 </html>

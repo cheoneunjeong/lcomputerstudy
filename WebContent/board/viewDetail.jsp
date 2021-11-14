@@ -42,7 +42,6 @@ margin: 0 auto;
 <br>
 	<button type="button" onclick="location.href='board-fix.do?b_idx=${Post.b_idx}'">수정</button>
 	<button type="button" onclick="location.href='board-delete.do?b_idx=${Post.b_idx}'">삭제</button>
-	<button type="button" onclick="location.href='board-list.do'">돌아가기</button>
 </div>
 </body>
 </html>

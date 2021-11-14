@@ -28,24 +28,26 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY (`b_idx`),
   KEY `u_idx` (`u_idx`),
   CONSTRAINT `test_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 jung.test:~12 rows (대략적) 내보내기
-DELETE FROM `test`;
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
 INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`) VALUES
-	(21, 'qqqqqqqqqqqqq', 'qqqqqqqqqqqqqqq', '2000-10-10 00:00:00', 8, 0),
+	(21, 'qqqqqqqqqqqqq', 'qqqqqqqqqqqqqqq', '2000-10-10 00:00:00', 8, 4),
 	(23, 'qqqqqqqqq', 'qqqqq', '2000-10-10 00:00:00', 4, 0),
-	(24, 'aaaqqq', 'qqqqqqqqq', '2000-10-10 00:00:00', 11, 0),
+	(24, 'aaaqqq', 'qqqqqqqqq', '2000-10-10 00:00:00', 11, 4),
 	(25, 'xxxx', 'xxxxxxx', '2000-10-10 00:00:00', 1, 0),
 	(26, 'ccc', 'cccccccc', '2000-10-10 00:00:00', 1, 0),
 	(27, 'xxxxxccccccc', 'xxx', '2000-10-10 00:00:00', 9, 0),
 	(28, 'qqq', 'qqq', '2000-10-10 00:00:00', 32, 0),
 	(31, 'rtrrt', 'rtrtre', '2021-11-12 09:03:55', 16, 0),
-	(32, 'ㅍㅍ', 'ㅍㅌㅇㅊ', '2021-11-12 09:14:23', 35, 0),
-	(33, 'ftyu', 'fty', '2021-11-12 10:26:42', 11, 0),
-	(38, 'rr', 'rr', '2021-11-12 11:02:49', 11, 1),
-	(39, 'aa', 'aaa', '2021-11-12 11:05:02', 11, 2);
+	(32, 'ㅍㅍ', 'ㅍㅌㅇㅊ', '2021-11-12 09:14:23', 35, 1),
+	(33, 'ftyu', 'fty', '2021-11-12 10:26:42', 11, 3),
+	(38, 'rr', 'rr', '2021-11-12 11:02:49', 11, 4),
+	(39, 'aa', 'aaa', '2021-11-12 11:05:02', 11, 5),
+	(40, 'ㅎㅎㅎ', 'ㅎㅎㅎ', '2021-11-14 04:17:18', 4, 0),
+	(41, 'ㅁㅁㅁ', 'ㅁㅁㅁ', '2021-11-14 04:17:29', 4, 0),
+	(42, 'ㅁㄴㅇ', 'ㅁㄴㅇ', '2021-11-14 04:17:44', 4, 0);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

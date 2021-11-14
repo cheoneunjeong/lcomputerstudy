@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.lcomputerstudy.testmvc.dao.BoardHitDAO;
 import com.lcomputerstudy.testmvc.service.BoardService;
 import com.lcomputerstudy.testmvc.service.UserService;
+import com.lcomputerstudy.testmvc.vo.BSpagination;
 import com.lcomputerstudy.testmvc.vo.Bpagination;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.Post;
@@ -230,25 +231,29 @@ public class Controller extends HttpServlet {
 			else page=1;
 			
 			String f = request.getParameter("f");
-			String search = request.getParameter("search");
+			String search_ = request.getParameter("search");
+			
+			String search = "";
+			if( search_ != null) search = search_;
 			
 			boardService = BoardService.getInstance();
 			list = boardService.searchPost(page, f, search);
 			
-			for( Post posts : list) {
-			System.out.println(post.getB_content());
-			System.out.println(post.getB_date());
-			System.out.println(post.getB_idx());
-			System.out.println(post.getB_title());
-			} //List ø° æ»¥„±Ë post∞° null √º≈©«œ±‚
+			BSpagination Bspagination = new BSpagination(page, f, search);
+			
+			for(Post postss : list) 
+				System.out.println("ÌôïÏù∏"+ postss.getB_content());
+			System.out.println( Bspagination.getStartPage());
+			System.out.println( Bspagination.getEndPage());
 			
 			
-			Bpagination = new Bpagination(page);
+			request.setAttribute("plist", list);
+			request.setAttribute("Bpagination", Bspagination);
+			request.setAttribute("f", f);
+			request.setAttribute("search", search);
 			
-			request.setAttribute("list", list);
-			request.setAttribute("Bpagination", Bpagination);
 			
-			view = "/board/list";
+			view = "/board/searchlist";
 			
 			break;		
 		}
