@@ -62,7 +62,7 @@ public class Controller extends HttpServlet {
 			ArrayList<User> ulist = userService.getUsers(page);
 			Pagination pagination = new Pagination(page);
 
-			request.setAttribute("list", list);
+			request.setAttribute("list", ulist);
 			request.setAttribute("pagination", pagination);
 
 			view = "user/list";
@@ -240,13 +240,7 @@ public class Controller extends HttpServlet {
 			list = boardService.searchPost(page, f, search);
 			
 			BSpagination Bspagination = new BSpagination(page, f, search);
-			
-			for(Post postss : list) 
-				System.out.println("확인"+ postss.getB_content());
-			System.out.println( Bspagination.getStartPage());
-			System.out.println( Bspagination.getEndPage());
-			
-			
+					
 			request.setAttribute("plist", list);
 			request.setAttribute("Bpagination", Bspagination);
 			request.setAttribute("f", f);

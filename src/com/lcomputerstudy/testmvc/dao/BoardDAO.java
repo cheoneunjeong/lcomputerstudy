@@ -325,7 +325,6 @@ public class BoardDAO {
 			while (rs.next()) {
 				count = rs.getInt("count");
 			}
-			System.out.println(count);
 			
 		} catch (Exception e) {
 
@@ -383,11 +382,6 @@ public class BoardDAO {
 				post.setU_idx(rs.getInt("u_idx"));
 				post.setHit(rs.getInt("b_hit"));
 				list.add(post);
-			}
-			for(Post post : list) {
-				System.out.println(post.getB_content());
-				System.out.println(post.getB_title());
-				System.out.println(post.getROWNUM());
 			}
 			
 		} catch (Exception e) {
