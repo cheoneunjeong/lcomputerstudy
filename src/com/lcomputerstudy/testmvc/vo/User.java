@@ -9,7 +9,8 @@ public class User {
 	private String u_tel;
 	private String u_age;
 	private int ROWNUM;
-	
+	private int manager;
+
 	public int getU_idx() {
 		return u_idx;
 	}
@@ -66,4 +67,11 @@ public class User {
 		this.ROWNUM = Rownum;
 	}
 
+	public int getManager() {
+		return manager;
+	}
+
+	public void setManager(int manager) {
+		this.manager = manager;
+	}
 }

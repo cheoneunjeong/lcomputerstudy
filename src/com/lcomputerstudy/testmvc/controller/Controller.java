@@ -173,13 +173,25 @@ public class Controller extends HttpServlet {
 			
 		case "/board-delete.do" :
 			
-			String Bidx_ = request.getParameter("b_idx");
-			int Bidx = Integer.parseInt(Bidx_);
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
+				}
+				
+			user = (User)session.getAttribute("user");
 			
-			System.out.println(Bidx);
+			String uidx_ = request.getParameter("u_idx");
+			int uidx = Integer.parseInt(uidx_);
+			
+			String bidx_ = request.getParameter("b_idx");
+			bidx = Integer.parseInt(bidx_);
+			
+			if((user.getU_idx() == uidx) || (user.getManager() == '1')) {
 			
 			boardService = BoardService.getInstance();
-			boardService.deletePost(Bidx);
+			boardService.deletePost(bidx);
+			}
 			
 			view = "/board/delete";
 			
@@ -188,23 +200,52 @@ public class Controller extends HttpServlet {
 			
 		case "/board-checkdelete.do":
 			
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
+				}
+				
+			user = (User)session.getAttribute("user");
+			
+			if(user.getManager() == '1') {
+			
 			String[] delIds = request.getParameterValues("del-id");
 			request.setAttribute("delIds", delIds);
 			
 			boardService = BoardService.getInstance();
 			boardService.checkdelete(delIds);
 			
+			
 			view = "/board/delete";
+			}
+			
+			else view = "/noaccess";
 			
 			break;
 			
 		case "/board-fix.do" :
 			
-			Bidx = Integer.parseInt(request.getParameter("b_idx"));
+			uidx = Integer.parseInt(request.getParameter("u_idx"));
+			bidx_ = request.getParameter("b_idx");
+			bidx = Integer.parseInt(bidx_);
 			
-			request.setAttribute("Bidx", Bidx);
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
+				}
+				
+			user = (User)session.getAttribute("user");
 			
-			view = "/board/fix"; 
+			if(user.getU_idx() == uidx) {
+			
+			request.setAttribute("bidx", bidx);
+			}
+			
+			view = "/board/fix";
+			
+			
 			break;
 			
 		case "/board-fix2.do" :
@@ -212,7 +253,7 @@ public class Controller extends HttpServlet {
 			post = new Post();
 			post.setB_title(request.getParameter("title"));
 			post.setB_content(request.getParameter("content"));
-			post.setU_idx(Integer.parseInt(request.getParameter("idx")));
+			post.setB_idx(Integer.parseInt(request.getParameter("bidx")));
 			post.setB_date_timestamp(new Timestamp(System.currentTimeMillis()));
 			
 			request.setAttribute("post", post);
@@ -249,7 +290,20 @@ public class Controller extends HttpServlet {
 			
 			view = "/board/searchlist";
 			
-			break;		
+			break;	
+			
+		case "/set-manager.do" :
+			
+			String[] mids = request.getParameterValues("mids");
+			request.setAttribute("mids", mids);
+			
+			userService = UserService.getInstance();
+			userService.setmanager(mids);
+			
+			url ="http://localhost:8080/lcomputerstudy/user-list.do";
+			
+			break;
+			
 		}
 			
 		if(view==null)

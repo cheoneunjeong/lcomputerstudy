@@ -40,8 +40,8 @@ margin: 0 auto;
 </div>
 <div>
 <br>
-	<button type="button" onclick="location.href='board-fix.do?b_idx=${Post.b_idx}'">수정</button>
-	<button type="button" onclick="location.href='board-delete.do?b_idx=${Post.b_idx}'">삭제</button>
+	<button type="button" onclick="location.href='board-fix.do?u_idx=${Post.u_idx}&&b_idx=${Post.b_idx}'">수정</button>
+	<button type="button" onclick="location.href='board-delete.do?u_idx=${Post.u_idx}&&b_idx=${Post.b_idx}'">삭제</button>
 </div>
 </body>
 </html>

@@ -47,6 +47,7 @@
 </style>
 <body>
 <h1>회원 목록</h1>
+<form action="set-manager.do" method="post">
 <table>
 	<tr>	
 		<td colspan="4"> 전체 회원 수 : ${pagination.userCount} </td>
@@ -61,11 +62,12 @@
 				<td><a href="user-detail.do?u_idx=${item.u_idx}">${item.u_idx}</a></td>
 				<td>${item.u_id}</td>
 				<td>${item.u_name}</td>
-				<td><input type="checkbox" name=""
-							value=""> </td>
+				<td><input type="checkbox" name="mids"
+							value="${item.u_idx}"> </td>
 		     </tr>
-		</c:forEach>
+		 </c:forEach>
 	</table>
+	</form>
 	<div>
 		<ul>
 			 <c:choose>

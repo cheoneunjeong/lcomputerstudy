@@ -208,4 +208,36 @@ public class UserDAO {
 		return user;
 	}
 
+	public void setmanager(String[] mids) {
+	
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		for(String mids_ : mids) {
+			
+			int Mids = Integer.parseInt(mids_);
+			
+			try {
+				conn = DBConnection.getConnection();
+				String query = "UPDATE user SET manager = '1' WHERE u_idx = ?";
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, Mids);
+				int r = pstmt.executeUpdate();
+				System.out.println(r);
+			} catch (Exception e) {
+
+			} finally {
+				try {
+					if (pstmt != null)
+						pstmt.close();
+					if (conn != null)
+						conn.close();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 }

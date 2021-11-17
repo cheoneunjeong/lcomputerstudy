@@ -218,16 +218,16 @@ public class BoardDAO {
 		return post;
 	}
 
-	public void deletePost(int Bidx) {
+	public void deletePost(int uidx) {
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
 		try {
 			conn = DBConnection.getConnection();
-			String query = "DELETE FROM test WHERE b_idx = ?";
+			String query = "DELETE FROM test WHERE u_idx = ?";
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, Bidx);
+			pstmt.setInt(1, uidx);
 			int r = pstmt.executeUpdate();
 			System.out.println(r);
 			
@@ -257,7 +257,7 @@ public class BoardDAO {
 			pstmt.setString(1, post.getB_title());
 			pstmt.setString(2, post.getB_content());
 			pstmt.setString(3, post.getB_date());
-			pstmt.setInt(4, post.getU_idx());
+			pstmt.setInt(4, post.getB_idx());
 			int r= pstmt.executeUpdate();
 			System.out.println(r);
 			

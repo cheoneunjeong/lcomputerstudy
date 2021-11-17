@@ -41,5 +41,11 @@ public class UserService {
 	public User loginUser(String idx, String pw) {
 		return dao.loginUser(idx,pw);
 	}
+
+	public void setmanager(String[] mids) {
+		 dao.setmanager(mids);
+		
+	}
+
 	
 }
