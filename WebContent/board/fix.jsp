@@ -19,7 +19,7 @@
 <fieldset>
 <form action="board-fix2.do" method="post">
 	<p> 제목 <input type="text" name="title" > </p>
-	<p> 작성자 : ${uidx} / 게시글 번호 : ${bidx} <input type="hidden" name="bidx" value = "${bidx}"> </p>
+	<p> 게시글 번호 : ${bidx} <input type="hidden" name="bidx" value = "${bidx}"> </p>
 	내용<br>
 	<textarea rows="20" cols="50" name="content"></textarea>
 	<br>

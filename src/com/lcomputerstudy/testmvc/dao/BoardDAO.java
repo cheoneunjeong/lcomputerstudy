@@ -218,16 +218,16 @@ public class BoardDAO {
 		return post;
 	}
 
-	public void deletePost(int uidx) {
+	public void deletePost(int bidx) {
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
 		try {
 			conn = DBConnection.getConnection();
-			String query = "DELETE FROM test WHERE u_idx = ?";
+			String query = "DELETE FROM test WHERE b_idx = ?";
 			pstmt = conn.prepareStatement(query);
-			pstmt.setInt(1, uidx);
+			pstmt.setInt(1, bidx);
 			int r = pstmt.executeUpdate();
 			System.out.println(r);
 			

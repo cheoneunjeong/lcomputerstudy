@@ -80,6 +80,7 @@ li {
 					<tr>
 						<td>${item.b_idx}</td>
 						<td><a href="board-view.do?b_idx=${item.b_idx}">
+							
 								${item.b_title}</a></td>
 						<td>${item.u_idx}</td>
 						<td>${item.b_date}</td>

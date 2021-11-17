@@ -191,6 +191,10 @@ public class UserDAO {
 				user.setU_pw(rs.getString("u_pw"));
 				user.setU_id(rs.getString("u_id"));
 				user.setU_name(rs.getString("u_name"));
+				user.setManager(rs.getInt("manager"));
+				user.setU_age(rs.getString("u_age"));
+				user.setU_tel(rs.getString("u_tel"));
+				
 			}
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());

@@ -112,7 +112,7 @@ public class Controller extends HttpServlet {
 			session = request.getSession();
 			session.invalidate();
 
-			view = "/user/login";
+			view = "login";
 			break;
 
 		case "/access-denied.do":
@@ -187,13 +187,14 @@ public class Controller extends HttpServlet {
 			String bidx_ = request.getParameter("b_idx");
 			bidx = Integer.parseInt(bidx_);
 			
-			if((user.getU_idx() == uidx) || (user.getManager() == '1')) {
+			if((user.getU_idx() == uidx) || (user.getManager() == 1)) {
 			
 			boardService = BoardService.getInstance();
 			boardService.deletePost(bidx);
-			}
 			
 			view = "/board/delete";
+			}
+			else view = "/board/noaccess";
 			
 			break;
 			
@@ -207,8 +208,8 @@ public class Controller extends HttpServlet {
 				}
 				
 			user = (User)session.getAttribute("user");
-			
-			if(user.getManager() == '1') {
+			System.out.println(user.getManager());
+			if(user.getManager() == 1) {
 			
 			String[] delIds = request.getParameterValues("del-id");
 			request.setAttribute("delIds", delIds);
@@ -220,7 +221,8 @@ public class Controller extends HttpServlet {
 			view = "/board/delete";
 			}
 			
-			else view = "/noaccess";
+			else view = "/board/noaccess";
+			
 			
 			break;
 			
@@ -241,10 +243,10 @@ public class Controller extends HttpServlet {
 			if(user.getU_idx() == uidx) {
 			
 			request.setAttribute("bidx", bidx);
+			view = "/board/fix";
 			}
 			
-			view = "/board/fix";
-			
+			else view = "/board/noaccess";
 			
 			break;
 			
