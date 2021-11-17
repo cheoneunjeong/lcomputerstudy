@@ -43,22 +43,26 @@
 	 	margin:0 5 px;
 	 	border-radius:5px;
 	 }
+	 
 </style>
 <body>
 <h1>회원 목록</h1>
 <table>
 	<tr>	
-		<td colspan="3"> 전체 회원 수 : ${pagination.userCount }</td>
+		<td colspan="4"> 전체 회원 수 : ${pagination.userCount} </td>
 	<tr>
 			<th>No</th>
 			<th>ID</th>
 			<th>이름</th>
+			<th><span><input type="submit" value="관리자 지정"></span></th>
 		<tr>
 		<c:forEach items="${list}" var="item" varStatus="status">
 			 <tr>
 				<td><a href="user-detail.do?u_idx=${item.u_idx}">${item.u_idx}</a></td>
 				<td>${item.u_id}</td>
 				<td>${item.u_name}</td>
+				<td><input type="checkbox" name=""
+							value=""> </td>
 		     </tr>
 		</c:forEach>
 	</table>
