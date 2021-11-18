@@ -72,4 +72,8 @@ public class BoardService {
 		return dao.getSearchPostCount(f,search);
 	}
 	
+	public void regComment(Post post, int groups, int orders, int depth) {
+		dao.regComment(post, groups, orders, depth);
+	}
+	
 }

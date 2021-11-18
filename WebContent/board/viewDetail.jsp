@@ -42,6 +42,7 @@ margin: 0 auto;
 <br>
 	<button type="button" onclick="location.href='board-fix.do?u_idx=${Post.u_idx}&&b_idx=${Post.b_idx}'">수정</button>
 	<button type="button" onclick="location.href='board-delete.do?u_idx=${Post.u_idx}&&b_idx=${Post.b_idx}'">삭제</button>
+	<button type="button" onclick="location.href='reg-Comment.do?b_idx=${Post.b_idx}&&groups=${Post.groups}&&orders=${Post.orders}&&depth=${Post.depth}'">답글 작성</button>
 </div>
 </body>
 </html>

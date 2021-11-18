@@ -125,7 +125,7 @@ public class Controller extends HttpServlet {
 				url = "http://localhost:8080/lcomputerstudy/user-login.do";
 				break;
 				}
-				
+			
 			user = (User)session.getAttribute("user");
 			
 			post = new Post();
@@ -138,6 +138,7 @@ public class Controller extends HttpServlet {
 			boardService.reg(post);
 			
 			view = "/board/regRs";
+			
 			break;
 			
 		case "/board-list.do" :
@@ -229,8 +230,7 @@ public class Controller extends HttpServlet {
 		case "/board-fix.do" :
 			
 			uidx = Integer.parseInt(request.getParameter("u_idx"));
-			bidx_ = request.getParameter("b_idx");
-			bidx = Integer.parseInt(bidx_);
+			bidx = Integer.parseInt(request.getParameter("b_idx"));
 			
 			session = request.getSession();
 			if(session.getAttribute("user")==null) {
@@ -305,6 +305,51 @@ public class Controller extends HttpServlet {
 			url ="http://localhost:8080/lcomputerstudy/user-list.do";
 			
 			break;
+			
+		case "/reg-Comment.do":
+			
+			bidx = Integer.parseInt(request.getParameter("b_idx"));
+			int cgroups = Integer.parseInt(request.getParameter("groups"));
+			int orders = Integer.parseInt(request.getParameter("orders"));
+			int depth = Integer.parseInt(request.getParameter("depth"));
+			
+
+			request.setAttribute("bidx", bidx);
+			request.setAttribute("cgroups", cgroups);
+			request.setAttribute("orders", orders);
+			request.setAttribute("depth", depth);
+			
+			view = "board/regComment";
+			
+			break;
+			
+		case "/reg-Comment2.do" :
+			
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
+				}
+			
+			user = (User)session.getAttribute("user");
+			
+			post = new Post();
+			post.setB_title(request.getParameter("title"));
+			post.setB_content(request.getParameter("content"));
+			post.setB_date_timestamp(new Timestamp(System.currentTimeMillis()));
+			post.setU_idx(user.getU_idx());
+			
+			cgroups = Integer.parseInt(request.getParameter("cgroups"));
+			orders = Integer.parseInt(request.getParameter("orders"));
+			depth = Integer.parseInt(request.getParameter("depth"));
+		
+			boardService = BoardService.getInstance();
+			boardService.regComment(post, cgroups, orders, depth);
+			
+			view = "/board/regRs";
+			
+			break;
+			
 			
 		}
 			

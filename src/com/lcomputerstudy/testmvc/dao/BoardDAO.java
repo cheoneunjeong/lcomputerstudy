@@ -1,5 +1,6 @@
 package com.lcomputerstudy.testmvc.dao;
 
+import java.net.MulticastSocket;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,8 +37,14 @@ public class BoardDAO {
 			pstmt.setString(2, post.getB_content());
 			pstmt.setString(3, post.getB_date());
 			pstmt.setInt(4, post.getU_idx());
-			int rr= pstmt.executeUpdate();
-			System.out.println(rr);
+			pstmt.executeUpdate();
+			
+			if (pstmt != null)
+				pstmt.close();
+			
+			sql = "UPDATE test SET groups = LAST_INSERT_ID(), orders = LAST_INSERT_ID() WHERE b_idx = last_insert_id()";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
 			
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
@@ -106,6 +113,9 @@ public class BoardDAO {
 				post.setB_date(rs.getString("b_date"));
 				post.setU_idx(rs.getInt("u_idx"));
 				post.setHit(rs.getInt("b_hit"));
+				post.setGroups(rs.getInt("groups"));
+				post.setOrders(rs.getInt("orders"));
+				post.setDepth(rs.getInt("depth"));
 				list.add(post);
 			}
 
@@ -133,12 +143,14 @@ public class BoardDAO {
 		try {
 			conn = DBConnection.getConnection();
 			String query = new StringBuilder()
-					.append("select @rownum := @rownum-1 as rownum,\n")
+					.append("select * FROM")
+					.append("(select @rownum := @rownum-1 as rownum,\n")
 					.append("    ta.*\n")
 					.append("from test ta, \n")
 					.append("    (select @rownum := (select count(*)-?+1 from test ta)) tb\n")
 					.append("ORDER BY b_idx desc\n")
-					.append("limit   ?,3\n")
+					.append("limit   ?,3)a\n")
+					.append("order by groups desc, orders asc")
 					.toString();
 
 			pstmt = conn.prepareStatement(query);
@@ -156,6 +168,9 @@ public class BoardDAO {
 				post.setB_date(rs.getString("b_date"));
 				post.setU_idx(rs.getInt("u_idx"));
 				post.setHit(rs.getInt("b_hit"));
+				post.setGroups(rs.getInt("groups"));
+				post.setOrders(rs.getInt("orders"));
+				post.setDepth(rs.getInt("depth"));
 				list.add(post);
 			}
 		} catch (Exception e) {
@@ -198,6 +213,9 @@ public class BoardDAO {
 				post.setB_date(rs.getString("b_date"));
 				post.setU_idx(rs.getInt("u_idx"));
 				post.setHit(rs.getInt("b_hit"));
+				post.setGroups(rs.getInt("groups"));
+				post.setOrders(rs.getInt("orders"));
+				post.setDepth(rs.getInt("depth"));
 			}
 			
 		} catch (Exception e) {
@@ -355,11 +373,13 @@ public class BoardDAO {
 			conn= DBConnection.getConnection();
 			
 			String query = new StringBuilder()
-					.append("SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM,\n")
+					.append("select * FROM")
+					.append("(SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM,\n")
 					.append("           ta.*\n")
 					.append("FROM       (SELECT * FROM test WHERE "+f+" LIKE ? ) ta, \n")
 					.append("           (SELECT @ROWNUM := (SELECT COUNT(*)-?+1 FROM (SELECT * FROM test WHERE "+f+" LIKE ? ) ta)) tb\n")
-					.append("LIMIT ?,3")
+					.append("LIMIT ?,3)a")
+					.append("order by groups desc, orders asc")
 					.toString();
 			
 			pstmt = conn.prepareStatement(query);
@@ -381,6 +401,9 @@ public class BoardDAO {
 				post.setB_date(rs.getString("b_date"));
 				post.setU_idx(rs.getInt("u_idx"));
 				post.setHit(rs.getInt("b_hit"));
+				post.setGroups(rs.getInt("groups"));
+				post.setOrders(rs.getInt("orders"));
+				post.setDepth(rs.getInt("depth"));
 				list.add(post);
 			}
 			
@@ -397,6 +420,50 @@ public class BoardDAO {
 				e.printStackTrace();
 			}
 		} return list;
+	}
+
+	public void regComment(Post post, int cgroups, int orders, int depth) {
+	
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "INSERT INTO test (b_title, b_content, b_date, u_idx, groups, orders, depth) VALUES(?, ?, ?, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, post.getB_title());
+			pstmt.setString(2, post.getB_content());
+			pstmt.setString(3, post.getB_date());
+			pstmt.setInt(4, post.getU_idx());
+			pstmt.setInt(5, cgroups);
+			pstmt.setInt(6, orders+1);
+			pstmt.setInt(7, depth+1);
+			
+			int t = pstmt.executeUpdate();
+			System.out.println("댓글인서트"+t);
+			
+			if (pstmt != null)
+				pstmt.close();
+			
+			sql = "update test set orders = orders+1 WHERE (not b_idx =  LAST_INSERT_ID() ) &&  (not orders = ?) && (groups = ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cgroups);
+			pstmt.setInt(2, cgroups);
+			int r = pstmt.executeUpdate();
+			System.out.println("나머지오더업뎃"+r);
+			
+		} catch (Exception ex) {
+			System.out.println("SQLException : " + ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 		
 }

@@ -13,7 +13,10 @@ public class Post {
 	private int u_idx; 
 	private int hit;
 	private int ROWNUM;
-	
+	private int groups;
+	private int orders;
+	private int depth;
+
 	public int getB_idx() {
 		return b_idx;
 	}
@@ -79,6 +82,30 @@ public class Post {
 
 	public void setHit(int hit) {
 		this.hit = hit;
+	}
+	
+	public int getGroups() {
+		return groups;
+	}
+
+	public void setGroups(int groups) {
+		this.groups = groups;
+	}
+
+	public int getOrders() {
+		return orders;
+	}
+
+	public void setOrders(int orders) {
+		this.orders = orders;
+	}
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
 	}
 	
 }
