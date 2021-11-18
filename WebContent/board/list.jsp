@@ -69,7 +69,8 @@ li {
 				<tr>
 					<th align="center" width="5%">No.</th>
 					<th align="center" width="50%">제목</th>
-					<th align="center" width="10%">작성자</th>
+					<th align="center" width="10%"
+					>작성자</th>
 					<th align="center" width="20%">작성일</th>
 					<th align="center" width="10%">조회수</th>
 					<th align="center" width="5%">일괄삭제</th>

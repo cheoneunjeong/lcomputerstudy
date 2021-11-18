@@ -143,14 +143,12 @@ public class BoardDAO {
 		try {
 			conn = DBConnection.getConnection();
 			String query = new StringBuilder()
-					.append("select * FROM")
-					.append("(select @rownum := @rownum-1 as rownum,\n")
+					.append("select * FROM(select @rownum := @rownum-1 as rownum,")
 					.append("    ta.*\n")
 					.append("from test ta, \n")
-					.append("    (select @rownum := (select count(*)-?+1 from test ta)) tb\n")
-					.append("ORDER BY b_idx desc\n")
-					.append("limit   ?,3)a\n")
-					.append("order by groups desc, orders asc")
+					.append("    (select @rownum := (select count(*)-?+1 from test ta)) tb \n")
+					.append("order by groups desc, orders asc\n")
+					.append("limit   ?,3)a")
 					.toString();
 
 			pstmt = conn.prepareStatement(query);
@@ -378,8 +376,8 @@ public class BoardDAO {
 					.append("           ta.*\n")
 					.append("FROM       (SELECT * FROM test WHERE "+f+" LIKE ? ) ta, \n")
 					.append("           (SELECT @ROWNUM := (SELECT COUNT(*)-?+1 FROM (SELECT * FROM test WHERE "+f+" LIKE ? ) ta)) tb\n")
+					.append("order by groups desc, orders asc\n")
 					.append("LIMIT ?,3)a")
-					.append("order by groups desc, orders asc")
 					.toString();
 			
 			pstmt = conn.prepareStatement(query);

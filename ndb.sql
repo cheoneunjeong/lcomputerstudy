@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        10.5.8-MariaDB - mariadb.org binary distribution
+-- 서버 버전:                        10.6.4-MariaDB - mariadb.org binary distribution
 -- 서버 OS:                        Win64
--- HeidiSQL 버전:                  11.0.0.5919
+-- HeidiSQL 버전:                  11.3.0.6295
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,30 +10,12 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- jung 데이터베이스 구조 내보내기
 CREATE DATABASE IF NOT EXISTS `jung` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `jung`;
-
--- 테이블 jung.board 구조 내보내기
-CREATE TABLE IF NOT EXISTS `board` (
-  `b_idx` int(10) NOT NULL AUTO_INCREMENT,
-  `b_title` varchar(255) NOT NULL,
-  `b_content` varchar(255) NOT NULL,
-  `b_date` varchar(255) NOT NULL,
-  `b_writer` varchar(255) NOT NULL,
-  `u_idx` int(10) DEFAULT NULL,
-  PRIMARY KEY (`b_idx`),
-  KEY `u_idx` (`u_idx`),
-  CONSTRAINT `board_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- 테이블 데이터 jung.board:~0 rows (대략적) 내보내기
-/*!40000 ALTER TABLE `board` DISABLE KEYS */;
-INSERT INTO `board` (`b_idx`, `b_title`, `b_content`, `b_date`, `b_writer`, `u_idx`) VALUES
-	(1, '제목', '내용입니다.', '2021-11-09', '작성자', 1);
-/*!40000 ALTER TABLE `board` ENABLE KEYS */;
 
 -- 테이블 jung.test 구조 내보내기
 CREATE TABLE IF NOT EXISTS `test` (
@@ -49,9 +31,9 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY (`b_idx`),
   KEY `u_idx` (`u_idx`),
   CONSTRAINT `test_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 jung.test:~11 rows (대략적) 내보내기
+-- 테이블 데이터 jung.test:~23 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
 INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`, `groups`, `orders`, `depth`) VALUES
 	(23, 'qqqqqqqqq', 'qqqqq', '2000-10-10 00:00:00', 4, 0, 1, 2, 0),
@@ -76,45 +58,15 @@ INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`,
 	(63, '1글', 'ㄴㄴ', '2021-11-18 12:03:14', 11, 5, 63, 63, 0),
 	(67, '1글의 댓1', 'ㅇㅇ', '2021-11-18 12:08:54', 11, 0, 63, 65, 1),
 	(68, '1글의 댓2', 'ㅇㅇ', '2021-11-18 12:09:05', 11, 0, 63, 64, 1),
-	(69, '2글', 'ㄴㄴ', '2021-11-18 12:09:45', 11, 0, 69, 69, 0);
+	(69, '2글', 'ㄴㄴ', '2021-11-18 12:09:45', 11, 2, 69, 69, 0),
+	(70, '2글의 답글', 'ㄷ', '2021-11-18 05:22:06', 11, 0, 69, 70, 1),
+	(71, 'ㅇㅇㅇ', 'ㅇㅇㅇ', '2021-11-18 05:44:49', 4, 2, 71, 71, 0),
+	(72, 'ㅇㄱㄱ', 'ㄱㄱㄱ', '2021-11-18 05:45:01', 4, 1, 71, 74, 1),
+	(73, 'ㅇㄱㄱㄱㄷㄷ', 'ㅇㅇ', '2021-11-18 05:45:13', 4, 0, 71, 74, 2),
+	(74, 'ㅇㄴ', 'ㅇㄴ', '2021-11-18 05:45:22', 4, 0, 71, 72, 1);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 
--- 테이블 jung.user 구조 내보내기
-CREATE TABLE IF NOT EXISTS `user` (
-  `u_idx` int(10) NOT NULL AUTO_INCREMENT,
-  `u_id` varchar(255) NOT NULL,
-  `u_pw` varchar(255) NOT NULL,
-  `u_name` varchar(255) NOT NULL,
-  `u_tel` varchar(255) NOT NULL,
-  `u_age` varchar(255) NOT NULL,
-  `manager` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`u_idx`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
-
--- 테이블 데이터 jung.user:~19 rows (대략적) 내보내기
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`u_idx`, `u_id`, `u_pw`, `u_name`, `u_tel`, `u_age`, `manager`) VALUES
-	(1, 'abc', '1234', 'NAME1', '010-0000-0000', '50', 1),
-	(3, 'rlaEodEOd', '111', '김땡땡', '010-1111-1111', '20', 1),
-	(4, 'b', '222', '이모씨', '010-2222-2222', '37', 1),
-	(5, 'ccc', '34343', '강하다', '010-2121-3232', '58', 0),
-	(6, 'dfdf', '545', '홍길동', '010-2898-4767', '44', 0),
-	(7, 'zyzy', '252d', '대한민국', '010-4747-3634', '88', 0),
-	(8, 'a1234', 'bbbb', '만세', '010-8487-7978', '69', 0),
-	(9, 'baba', 'cfdfd', '바비', '010-8787-1111', '56', 0),
-	(10, 'wew', 'qqqq', '박찬호', '010-7777-3232', '50', 0),
-	(11, 'a1', '5555', '강호동', '090-4343-4444', '32', 0),
-	(12, 'b1', '1111', '박길동', '090-3333-7777', '49', 0),
-	(13, 'bb1', '2222', '고길돌', '090-4444-6666', '61', 0),
-	(16, 'gbhuj', '1234', 'ok', '1-1-1', '11', 0),
-	(18, 'abcd', 'efg', 'abcd', '010-1234-1234', '30', 0),
-	(20, 'ttt', 'zxczxc', 'ttt', '010-7894-1412', '30', 0),
-	(21, 'zzxx', 'zzxx', 'zzxx', '010-1111-2222', '11', 0),
-	(22, 'gg', 'aa', 'aa', 'a-a-a', 'aa', 0),
-	(23, 'zxc', 'zxc', 'zxc', 'zxc-zxc-zxc', 'zxc', 0),
-	(24, 'ㅇㅇㅇ', '123123', 'ddd', '1231-1231-1231', '12', 0);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
