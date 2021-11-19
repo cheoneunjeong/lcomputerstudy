@@ -14,7 +14,7 @@
 	}
 </style>
 <body>
-<h2 align="center">댓글작성</h2>
+<h2 align="center">답글작성</h2>
 <div>
 <fieldset>
 <form action="reg-Comment2.do" method="post">

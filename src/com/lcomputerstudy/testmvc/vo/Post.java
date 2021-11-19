@@ -16,6 +16,8 @@ public class Post {
 	private int groups;
 	private int orders;
 	private int depth;
+	private String concat;
+
 
 	public int getB_idx() {
 		return b_idx;
@@ -108,4 +110,11 @@ public class Post {
 		this.depth = depth;
 	}
 	
+	public String getConcat() {
+		return concat;
+	}
+
+	public void setConcat(String concat) {
+		this.concat = concat;
+	}
 }
