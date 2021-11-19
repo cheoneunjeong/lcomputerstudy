@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,20 +45,26 @@ margin: 0 auto;
 </div>
 <br>
 <div>
+<form action="reg-reply.do" method="post">
 		<p> 0 개의 댓글 </p>
-		<p><input type="text" name="comment">
-			<input type="submit" value="등록"></p>
+	
+		<p> <input type="text" name="content">
+			<input type="hidden" name="bidx" value="${Post.b_idx }">
+			<input type="submit" value="등록">
+		</p>
 <br>
 <hr>
+</form>
+		<c:forEach items="${re}" var="re" varStatus="status">
 			<table>
 					<tr>
-						<td>아이디</td>
+						<td>${re.u_idx}</td>
 					</tr>
 					<tr>
-						<td>시간</td>
+						<td>${re.c_date}</td>
 					</tr>
 					<tr>
-						<td>내용</td>
+						<td>${re.c_content}</td>
 					</tr>
 					<tr>
 						<td><br>
@@ -65,7 +72,8 @@ margin: 0 auto;
 							</td>
 					</tr>
 			</table>
-		<hr>		
+		</c:forEach>
+		<hr>	
 </div>
 </body>
 </html>

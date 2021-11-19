@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.lcomputerstudy.testmvc.database.DBConnection;
 import com.lcomputerstudy.testmvc.vo.Post;
+import com.lcomputerstudy.testmvc.vo.Reply;
 
 public class BoardDAO {
 	
@@ -142,7 +143,7 @@ public class BoardDAO {
 		try {
 			conn = DBConnection.getConnection();
 			String query = new StringBuilder()
-					.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('â””', depth), b_title))as con,")
+					.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('¦¦', depth), b_title))as con,")
 					.append("    ta.*\n")
 					.append("from test ta, \n")
 					.append("    (select @rownum := (select count(*)-?+1 from test ta)) tb \n")
@@ -370,7 +371,7 @@ public class BoardDAO {
 			
 			String query = new StringBuilder()
 					.append("select * FROM")
-					.append("(SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM, (concat(repeat('â””', depth), b_title))AS con,\n")
+					.append("(SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM, (concat(repeat('¦¦', depth), b_title))AS con,\n")
 					.append("           ta.*\n")
 					.append("FROM       (SELECT * FROM test WHERE "+f+" LIKE ? ) ta, \n")
 					.append("           (SELECT @ROWNUM := (SELECT COUNT(*)-?+1 FROM (SELECT * FROM test WHERE "+f+" LIKE ? ) ta)) tb\n")
@@ -445,6 +446,36 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, orders+1);
 			pstmt.setInt(2, cgroups);
+			pstmt.executeUpdate();
+			
+		} catch (Exception ex) {
+			System.out.println("SQLException : " + ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void regReply(Reply reply) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "INSERT INTO test_reply (b_idx, u_idx, c_date, c_content) VALUES(?,?,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reply.getB_idx());
+			pstmt.setInt(2, reply.getU_idx());
+			pstmt.setString(3, reply.getC_date());
+			pstmt.setString(4, reply.getC_content());
+
 			pstmt.executeUpdate();
 			
 		} catch (Exception ex) {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.dao.BoardDAO;
 import com.lcomputerstudy.testmvc.dao.BoardHitDAO;
 import com.lcomputerstudy.testmvc.vo.Post;
+import com.lcomputerstudy.testmvc.vo.Reply;
 
 public class BoardService {
 	
@@ -74,6 +75,11 @@ public class BoardService {
 	
 	public void regComment(Post post, int groups, int orders, int depth) {
 		dao.regComment(post, groups, orders, depth);
+	}
+
+	public void regReply(Reply reply) {
+		dao.regReply(reply);
+		
 	}
 	
 }

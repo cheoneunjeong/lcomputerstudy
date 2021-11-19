@@ -19,6 +19,7 @@ import com.lcomputerstudy.testmvc.vo.BSpagination;
 import com.lcomputerstudy.testmvc.vo.Bpagination;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.Post;
+import com.lcomputerstudy.testmvc.vo.Reply;
 import com.lcomputerstudy.testmvc.vo.User;
 
 @WebServlet("*.do")
@@ -51,6 +52,7 @@ public class Controller extends HttpServlet {
 		User user = null;
 		BoardService boardService = null;
 		ArrayList<Post> list = null;
+		Reply reply = null;
 
 		switch (command) {
 		case "/user-list.do":
@@ -128,6 +130,8 @@ public class Controller extends HttpServlet {
 			
 			user = (User)session.getAttribute("user");
 			
+			if(user.getU_idx() != 0) {
+			
 			post = new Post();
 			post.setB_title(request.getParameter("title"));
 			post.setB_content(request.getParameter("content"));
@@ -140,6 +144,13 @@ public class Controller extends HttpServlet {
 			view = "/board/regRs";
 			
 			break;
+			}
+			
+			else view = "/board/noaccess";
+				
+			break;
+				
+			
 			
 		case "/board-list.do" :
 			
@@ -209,7 +220,7 @@ public class Controller extends HttpServlet {
 				}
 				
 			user = (User)session.getAttribute("user");
-			System.out.println(user.getManager());
+
 			if(user.getManager() == 1) {
 			
 			String[] delIds = request.getParameterValues("del-id");
@@ -333,6 +344,8 @@ public class Controller extends HttpServlet {
 			
 			user = (User)session.getAttribute("user");
 			
+			if(user.getU_idx() != 0) {
+			
 			post = new Post();
 			post.setB_title(request.getParameter("title"));
 			post.setB_content(request.getParameter("content"));
@@ -348,8 +361,43 @@ public class Controller extends HttpServlet {
 			
 			view = "/board/regRs";
 			
+				break;
+			}
+			
+			else view = "/board/noaccess";
+			
 			break;
 			
+		case "reg-reply.do" :
+			
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
+				}
+			
+			user = (User)session.getAttribute("user");
+			
+			if(user.getU_idx() != 0) {
+			
+			reply = new Reply();
+			reply.setB_idx(Integer.parseInt(request.getParameter("bidx")));
+			reply.setU_idx(user.getU_idx());
+			reply.setC_date_timestamp(new Timestamp(System.currentTimeMillis()));
+			reply.setC_content(request.getParameter("content"));
+			
+			boardService = BoardService.getInstance();
+			boardService.regReply(reply);
+			
+			request.setAttribute("re", reply);
+			
+			view = "/board/viewDetail";
+			
+			break;
+			}
+			
+			else
+			view = "/board/noaccess";
 			
 		}
 			
