@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.lcomputerstudy.testmvc.dao.BoardDAO;
 import com.lcomputerstudy.testmvc.dao.BoardHitDAO;
+import com.lcomputerstudy.testmvc.vo.Detail;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.Reply;
 
@@ -46,7 +47,7 @@ public class BoardService {
 		return dao.getPost(page);
 	}
 	
-	public Post getPostDetail(int bidx) {
+	public Detail getPostDetail(int bidx) {
 		
 		hitdao.insertHit(bidx);
 		
@@ -79,6 +80,11 @@ public class BoardService {
 
 	public void regReply(Reply reply) {
 		dao.regReply(reply);
+		
+	}
+
+	public void deleteReply(int c_num) {
+		dao.deleteReply(c_num);
 		
 	}
 	

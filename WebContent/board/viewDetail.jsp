@@ -47,28 +47,29 @@ margin: 0 auto;
 <div>
 <form action="reg-reply.do" method="post">
 		<p> 0 개의 댓글 </p>
+		
 	
 		<p> <input type="text" name="content">
 			<input type="hidden" name="bidx" value="${Post.b_idx }">
 			<input type="submit" value="등록">
 		</p>
 <br>
-<hr>
 </form>
-		<c:forEach items="${re}" var="re" varStatus="status">
+		<c:forEach items="${replys}" var="replys" varStatus="status">
 			<table>
 					<tr>
-						<td>${re.u_idx}</td>
+						<td>${replys.u_idx}</td>
 					</tr>
 					<tr>
-						<td>${re.c_date}</td>
+						<td>${replys.c_date}</td>
 					</tr>
 					<tr>
-						<td>${re.c_content}</td>
+						<td>${replys.c_content}</td>
 					</tr>
 					<tr>
 						<td><br>
-							<button type="button">답글작성</button>
+							<button type="button" onclick="location.href='reg-Re-relply.do?c_num=${replys.c_num}&&b_idx=${replys.b_idx}&&u_idx=${replys.u_idx}'">답글작성</button>
+							<button type="button" onclick="location.href='delete-reply.do?c_num=${replys.c_num}&&b_idx=${replys.b_idx}&&u_idx=${replys.u_idx}'">삭제</button>
 							</td>
 					</tr>
 			</table>

@@ -17,6 +17,7 @@ import com.lcomputerstudy.testmvc.service.BoardService;
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.BSpagination;
 import com.lcomputerstudy.testmvc.vo.Bpagination;
+import com.lcomputerstudy.testmvc.vo.Detail;
 import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.Reply;
@@ -53,6 +54,7 @@ public class Controller extends HttpServlet {
 		BoardService boardService = null;
 		ArrayList<Post> list = null;
 		Reply reply = null;
+		Detail detail = null;
 
 		switch (command) {
 		case "/user-list.do":
@@ -122,15 +124,14 @@ public class Controller extends HttpServlet {
 			break;
 
 		case "/board/reg.do":
+			
 			session = request.getSession();
 			if(session.getAttribute("user")==null) {
 				url = "http://localhost:8080/lcomputerstudy/user-login.do";
 				break;
 				}
-			
+
 			user = (User)session.getAttribute("user");
-			
-			if(user.getU_idx() != 0) {
 			
 			post = new Post();
 			post.setB_title(request.getParameter("title"));
@@ -144,13 +145,7 @@ public class Controller extends HttpServlet {
 			view = "/board/regRs";
 			
 			break;
-			}
-			
-			else view = "/board/noaccess";
-				
-			break;
-				
-			
+	
 			
 		case "/board-list.do" :
 			
@@ -175,10 +170,13 @@ public class Controller extends HttpServlet {
 			int bidx = Integer.parseInt(idx_);
 
 			boardService = BoardService.getInstance();
-			post = boardService.getPostDetail(bidx);
+			detail = boardService.getPostDetail(bidx);
+			
+			ArrayList replys = detail.getList();
+			post = detail.getPost();
 		
 			request.setAttribute("Post", post);
-			System.out.println(post.getB_content());
+			request.setAttribute("replys", replys);
 			
 			view = "/board/viewDetail";
 			break;
@@ -344,8 +342,6 @@ public class Controller extends HttpServlet {
 			
 			user = (User)session.getAttribute("user");
 			
-			if(user.getU_idx() != 0) {
-			
 			post = new Post();
 			post.setB_title(request.getParameter("title"));
 			post.setB_content(request.getParameter("content"));
@@ -361,14 +357,10 @@ public class Controller extends HttpServlet {
 			
 			view = "/board/regRs";
 			
-				break;
-			}
-			
-			else view = "/board/noaccess";
-			
 			break;
+
 			
-		case "reg-reply.do" :
+		case "/reg-reply.do" :
 			
 			session = request.getSession();
 			if(session.getAttribute("user")==null) {
@@ -377,11 +369,10 @@ public class Controller extends HttpServlet {
 				}
 			
 			user = (User)session.getAttribute("user");
-			
-			if(user.getU_idx() != 0) {
+			int b_idx = Integer.parseInt(request.getParameter("bidx"));
 			
 			reply = new Reply();
-			reply.setB_idx(Integer.parseInt(request.getParameter("bidx")));
+			reply.setB_idx(b_idx);
 			reply.setU_idx(user.getU_idx());
 			reply.setC_date_timestamp(new Timestamp(System.currentTimeMillis()));
 			reply.setC_content(request.getParameter("content"));
@@ -389,18 +380,47 @@ public class Controller extends HttpServlet {
 			boardService = BoardService.getInstance();
 			boardService.regReply(reply);
 			
-			request.setAttribute("re", reply);
-			
-			view = "/board/viewDetail";
+			url = "http://localhost:8080/lcomputerstudy/board-view.do?b_idx="+b_idx;
 			
 			break;
+			
+		case "/delete-reply.do" :
+			
+			int c_num = Integer.parseInt(request.getParameter("c_num"));
+			int u_idx = Integer.parseInt(request.getParameter("u_idx"));			
+			b_idx = Integer.parseInt(request.getParameter("b_idx"));
+			
+			
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
 			}
 			
-			else
-			view = "/board/noaccess";
+			user= (User)session.getAttribute("user");
+			if(user.getU_idx() == u_idx || user.getManager() == 1)
+				{
+			
+				boardService = BoardService.getInstance();
+				boardService.deleteReply(c_num);
+			
+				url = "http://localhost:8080/lcomputerstudy/board-view.do?b_idx="+b_idx;
+				
+				break;
+				}
+			
+			else view = "/board/noaccess";
+			
+			break;
+			
+		case "reg-Re-relply.do" :
+			
+			
+			
 			
 		}
 			
+		
 		if(view==null)
 			response.sendRedirect(url);
 		
@@ -408,10 +428,8 @@ public class Controller extends HttpServlet {
 			
 			RequestDispatcher rd = request.getRequestDispatcher(view + ".jsp");
 					rd.forward(request, response);
+			}
 		}
-		
-		
-	}
 
 	String checkSession(HttpServletRequest request, HttpServletResponse response, String command) {
 

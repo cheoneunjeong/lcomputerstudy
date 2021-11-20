@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import com.lcomputerstudy.testmvc.database.DBConnection;
+import com.lcomputerstudy.testmvc.vo.Detail;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.Reply;
 
@@ -191,11 +193,13 @@ public class BoardDAO {
 
 	}
 
-	public Post getPostDetail(int bidx) {
+	public Detail getPostDetail(int bidx) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Post post = new Post();
+		ArrayList<Reply> list = new ArrayList<>();
+		Detail detail = new Detail();
 
 		try {
 			conn = DBConnection.getConnection();
@@ -203,7 +207,6 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, bidx);
 			rs = pstmt.executeQuery();
-			System.out.println(rs);
 
 			while (rs.next()) {
 				post.setB_idx(bidx);
@@ -215,6 +218,30 @@ public class BoardDAO {
 				post.setGroups(rs.getInt("groups"));
 				post.setOrders(rs.getInt("orders"));
 				post.setDepth(rs.getInt("depth"));
+				
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				
+				query = "SELECT * FROM test_reply WHERE b_idx = ?";
+				pstmt = conn.prepareStatement(query);
+				pstmt.setInt(1, bidx);
+				rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					Reply reply = new Reply();
+					reply.setB_idx(bidx);
+					reply.setC_content(rs.getString("c_content"));
+					reply.setC_date(rs.getString("c_date"));
+					reply.setU_idx(rs.getInt("u_idx"));
+					reply.setC_num(rs.getInt("c_num"));
+					list.add(reply);
+				}
+				
+			detail.setList(list);
+			detail.setPost(post);	
+			
 			}
 			
 		} catch (Exception e) {
@@ -232,7 +259,7 @@ public class BoardDAO {
 				e.printStackTrace();
 			}
 		}
-		return post;
+		return detail;
 	}
 
 	public void deletePost(int bidx) {
@@ -486,6 +513,33 @@ public class BoardDAO {
 					pstmt.close();
 				if (conn != null)
 					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void deleteReply(int c_num) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = DBConnection.getConnection();
+			String query = "DELETE FROM test_reply WHERE c_num = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, c_num);
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

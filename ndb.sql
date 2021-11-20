@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY (`b_idx`),
   KEY `u_idx` (`u_idx`),
   CONSTRAINT `test_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 jung.test:~15 rows (대략적) 내보내기
+-- 테이블 데이터 jung.test:~16 rows (대략적) 내보내기
 DELETE FROM `test`;
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
 INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`, `groups`, `orders`, `depth`) VALUES
@@ -69,10 +69,13 @@ INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`,
 	(108, '1-3', '[[', '2021-11-19 10:07:34', 11, 2, 99, 2, 1),
 	(109, '1-2 /1', '[[', '2021-11-19 10:07:57', 11, 0, 99, 4, 2),
 	(113, '글', 'ㄹㄹㄹ', '2021-11-19 05:21:23', 11, 1, 113, 1, 0),
-	(114, '글2', 'ㅇㅇㅇ', '2021-11-19 05:21:32', 11, 2, 114, 1, 0),
+	(114, '글2', 'ㅇㅇㅇ', '2021-11-19 05:21:32', 11, 4, 114, 1, 0),
 	(115, '답글', 'ㄴㄴㄴ', '2021-11-19 05:21:44', 11, 1, 113, 2, 1),
 	(116, '수정', 'ㅇㅇ', '2021-11-19 05:22:16', 11, 3, 113, 3, 2),
-	(117, 'tt', 'tt', '2021-11-19 07:45:40', 11, 2, 117, 1, 0);
+	(117, 'tt', 'tt', '2021-11-19 07:45:40', 11, 3, 117, 1, 0),
+	(118, 'dd', 'dd', '2021-11-20 10:34:31', 11, 1, 118, 1, 0),
+	(119, 'ff', 'ff', '2021-11-20 10:38:15', 11, 75, 119, 1, 0),
+	(120, 'fff', 'fff', '2021-11-20 10:38:23', 11, 0, 119, 2, 1);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 
 -- 테이블 jung.test_reply 구조 내보내기
@@ -87,13 +90,11 @@ CREATE TABLE IF NOT EXISTS `test_reply` (
   KEY `b_idx` (`b_idx`),
   CONSTRAINT `test_reply_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`),
   CONSTRAINT `test_reply_ibfk_2` FOREIGN KEY (`b_idx`) REFERENCES `test` (`b_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 jung.test_reply:~0 rows (대략적) 내보내기
+-- 테이블 데이터 jung.test_reply:~1 rows (대략적) 내보내기
 DELETE FROM `test_reply`;
 /*!40000 ALTER TABLE `test_reply` DISABLE KEYS */;
-INSERT INTO `test_reply` (`c_num`, `b_idx`, `u_idx`, `c_date`, `c_content`) VALUES
-	(1, 114, 11, '2021-11-19 00:00:00', 'asdasd');
 /*!40000 ALTER TABLE `test_reply` ENABLE KEYS */;
 
 -- 테이블 jung.user 구조 내보내기
