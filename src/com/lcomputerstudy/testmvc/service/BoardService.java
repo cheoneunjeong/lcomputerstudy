@@ -87,5 +87,9 @@ public class BoardService {
 		dao.deleteReply(c_num);
 		
 	}
+
+	public int getReplyCount(int bidx) {
+		return dao.getReplyCount(bidx);
+	}
 	
 }

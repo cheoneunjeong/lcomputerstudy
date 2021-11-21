@@ -145,7 +145,7 @@ public class BoardDAO {
 		try {
 			conn = DBConnection.getConnection();
 			String query = new StringBuilder()
-					.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('¦¦', depth), b_title))as con,")
+					.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('ï¿½ï¿½', depth), b_title))as con,")
 					.append("    ta.*\n")
 					.append("from test ta, \n")
 					.append("    (select @rownum := (select count(*)-?+1 from test ta)) tb \n")
@@ -224,7 +224,10 @@ public class BoardDAO {
 				if (pstmt != null)
 					pstmt.close();
 				
-				query = "SELECT * FROM test_reply WHERE b_idx = ?";
+				query = new StringBuilder()
+						.append("SELECT * FROM test_reply WHERE b_idx = ?\n")
+						.append("ORDER BY c_date DESC")
+						.toString();
 				pstmt = conn.prepareStatement(query);
 				pstmt.setInt(1, bidx);
 				rs = pstmt.executeQuery();
@@ -398,7 +401,7 @@ public class BoardDAO {
 			
 			String query = new StringBuilder()
 					.append("select * FROM")
-					.append("(SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM, (concat(repeat('¦¦', depth), b_title))AS con,\n")
+					.append("(SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM, (concat(repeat('ï¿½ï¿½', depth), b_title))AS con,\n")
 					.append("           ta.*\n")
 					.append("FROM       (SELECT * FROM test WHERE "+f+" LIKE ? ) ta, \n")
 					.append("           (SELECT @ROWNUM := (SELECT COUNT(*)-?+1 FROM (SELECT * FROM test WHERE "+f+" LIKE ? ) ta)) tb\n")
@@ -544,6 +547,40 @@ public class BoardDAO {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public int getReplyCount(int bidx) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+
+		try {
+			conn = DBConnection.getConnection();
+			String query = "SELECT COUNT(*) count FROM test_reply WHERE b_idx = ?";
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bidx);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				count = rs.getInt("count");
+			}
+			
+		} catch (Exception e) {
+
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return count;
 	}
 		
 }

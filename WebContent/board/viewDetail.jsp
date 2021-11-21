@@ -46,7 +46,7 @@ margin: 0 auto;
 <br>
 <div>
 <form action="reg-reply.do" method="post">
-		<p> 0 개의 댓글 </p>
+		<p> ${count} 개의 댓글 </p>
 		
 	
 		<p> <input type="text" name="content">
@@ -58,7 +58,7 @@ margin: 0 auto;
 		<c:forEach items="${replys}" var="replys" varStatus="status">
 			<table>
 					<tr>
-						<td>${replys.u_idx}</td>
+						<td>작성자 : ${replys.u_idx}</td>
 					</tr>
 					<tr>
 						<td>${replys.c_date}</td>

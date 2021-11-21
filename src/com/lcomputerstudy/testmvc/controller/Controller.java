@@ -55,6 +55,7 @@ public class Controller extends HttpServlet {
 		ArrayList<Post> list = null;
 		Reply reply = null;
 		Detail detail = null;
+		int count = 0;
 
 		switch (command) {
 		case "/user-list.do":
@@ -171,12 +172,14 @@ public class Controller extends HttpServlet {
 
 			boardService = BoardService.getInstance();
 			detail = boardService.getPostDetail(bidx);
+			count = boardService.getReplyCount(bidx);
 			
 			ArrayList replys = detail.getList();
 			post = detail.getPost();
 		
 			request.setAttribute("Post", post);
 			request.setAttribute("replys", replys);
+			request.setAttribute("count", count);
 			
 			view = "/board/viewDetail";
 			break;

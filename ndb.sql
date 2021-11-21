@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS `board` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 jung.board:~0 rows (대략적) 내보내기
-DELETE FROM `board`;
 /*!40000 ALTER TABLE `board` DISABLE KEYS */;
 INSERT INTO `board` (`b_idx`, `b_title`, `b_content`, `b_date`, `b_writer`, `u_idx`) VALUES
 	(1, '제목', '내용입니다.', '2021-11-09', '작성자', 1);
@@ -53,8 +52,7 @@ CREATE TABLE IF NOT EXISTS `test` (
   CONSTRAINT `test_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`)
 ) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 jung.test:~16 rows (대략적) 내보내기
-DELETE FROM `test`;
+-- 테이블 데이터 jung.test:~19 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
 INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`, `groups`, `orders`, `depth`) VALUES
 	(99, '1', 'l', '2021-11-19 09:59:04', 11, 3, 99, 1, 0),
@@ -74,8 +72,8 @@ INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`,
 	(116, '수정', 'ㅇㅇ', '2021-11-19 05:22:16', 11, 3, 113, 3, 2),
 	(117, 'tt', 'tt', '2021-11-19 07:45:40', 11, 3, 117, 1, 0),
 	(118, 'dd', 'dd', '2021-11-20 10:34:31', 11, 1, 118, 1, 0),
-	(119, 'ff', 'ff', '2021-11-20 10:38:15', 11, 75, 119, 1, 0),
-	(120, 'fff', 'fff', '2021-11-20 10:38:23', 11, 0, 119, 2, 1);
+	(119, 'ff', 'ff', '2021-11-20 10:38:15', 11, 125, 119, 1, 0),
+	(120, 'fff', 'fff', '2021-11-20 10:38:23', 11, 1, 119, 2, 1);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 
 -- 테이블 jung.test_reply 구조 내보내기
@@ -90,11 +88,14 @@ CREATE TABLE IF NOT EXISTS `test_reply` (
   KEY `b_idx` (`b_idx`),
   CONSTRAINT `test_reply_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`),
   CONSTRAINT `test_reply_ibfk_2` FOREIGN KEY (`b_idx`) REFERENCES `test` (`b_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 jung.test_reply:~1 rows (대략적) 내보내기
-DELETE FROM `test_reply`;
+-- 테이블 데이터 jung.test_reply:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test_reply` DISABLE KEYS */;
+INSERT INTO `test_reply` (`c_num`, `b_idx`, `u_idx`, `c_date`, `c_content`) VALUES
+	(31, 119, 11, '2021-11-21 10:59:51', 'ssssssssss'),
+	(35, 119, 11, '2021-11-21 11:00:03', 'ss'),
+	(36, 119, 11, '2021-11-21 11:00:05', 'gh');
 /*!40000 ALTER TABLE `test_reply` ENABLE KEYS */;
 
 -- 테이블 jung.user 구조 내보내기
@@ -110,7 +111,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 jung.user:~19 rows (대략적) 내보내기
-DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`u_idx`, `u_id`, `u_pw`, `u_name`, `u_tel`, `u_age`, `manager`) VALUES
 	(1, 'abc', '1234', 'NAME1', '010-0000-0000', '50', 1),
