@@ -11,6 +11,10 @@ public class Reply {
 		private String c_content;
 		private String c_date;
 		private Timestamp c_date_timestamp;
+		private int groups;
+		private int orders;
+		private int depth;
+		private String con;
 
 		public int getC_num() {
 			return c_num;
@@ -62,5 +66,38 @@ public class Reply {
 			SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd \n hh:mm:ss");
 			this.c_date = fm.format(c_date_timestamp);
 		}
+
+		public int getGroups() {
+			return groups;
+		}
+
+		public void setGroups(int groups) {
+			this.groups = groups;
+		}
+
+		public int getOrders() {
+			return orders;
+		}
+
+		public void setOrders(int orders) {
+			this.orders = orders;
+		}
+
+		public int getDepth() {
+			return depth;
+		}
+
+		public void setDepth(int depth) {
+			this.depth = depth;
+		}
+
+		public String getCon() {
+			return con;
+		}
+
+		public void setCon(String con) {
+			this.con = con;
+		}
+		
 
 	}

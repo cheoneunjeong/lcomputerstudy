@@ -145,7 +145,7 @@ public class BoardDAO {
 		try {
 			conn = DBConnection.getConnection();
 			String query = new StringBuilder()
-					.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('��', depth), b_title))as con,")
+					.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('ㄴ', depth), b_title))as con,")
 					.append("    ta.*\n")
 					.append("from test ta, \n")
 					.append("    (select @rownum := (select count(*)-?+1 from test ta)) tb \n")
@@ -225,11 +225,14 @@ public class BoardDAO {
 					pstmt.close();
 				
 				query = new StringBuilder()
-						.append("SELECT * FROM test_reply WHERE b_idx = ?\n")
-						.append("ORDER BY c_date DESC")
+						.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('ㄴ', depth), c_content))as con,    ta.*\n")
+						.append("from (SELECT * FROM test_reply WHERE b_idx= ?)ta,\n")
+						.append("    (select @rownum := (select count(*)+1 from (SELECT * FROM test_reply WHERE b_idx= ?)ta)) tb \n")
+						.append("order by groups desc, orders asc)a \n")
 						.toString();
 				pstmt = conn.prepareStatement(query);
 				pstmt.setInt(1, bidx);
+				pstmt.setInt(2, bidx);
 				rs = pstmt.executeQuery();
 				
 				while (rs.next()) {
@@ -239,8 +242,13 @@ public class BoardDAO {
 					reply.setC_date(rs.getString("c_date"));
 					reply.setU_idx(rs.getInt("u_idx"));
 					reply.setC_num(rs.getInt("c_num"));
+					reply.setGroups(rs.getInt("groups"));
+					reply.setOrders(rs.getInt("orders"));
+					reply.setDepth(rs.getInt("depth"));
+					reply.setCon(rs.getString("con"));
 					list.add(reply);
 				}
+		
 				
 			detail.setList(list);
 			detail.setPost(post);	
@@ -401,7 +409,7 @@ public class BoardDAO {
 			
 			String query = new StringBuilder()
 					.append("select * FROM")
-					.append("(SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM, (concat(repeat('��', depth), b_title))AS con,\n")
+					.append("(SELECT     @ROWNUM := @ROWNUM -1 AS ROWNUM, (concat(repeat('ㄴ', depth), b_title))AS con,\n")
 					.append("           ta.*\n")
 					.append("FROM       (SELECT * FROM test WHERE "+f+" LIKE ? ) ta, \n")
 					.append("           (SELECT @ROWNUM := (SELECT COUNT(*)-?+1 FROM (SELECT * FROM test WHERE "+f+" LIKE ? ) ta)) tb\n")
@@ -507,6 +515,13 @@ public class BoardDAO {
 			pstmt.setString(4, reply.getC_content());
 
 			pstmt.executeUpdate();
+		
+			if (pstmt != null)
+				pstmt.close();
+			
+			sql = "UPDATE test_reply SET groups = LAST_INSERT_ID(), orders = '1' WHERE c_num = last_insert_id()";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.executeUpdate();
 			
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
@@ -582,6 +597,49 @@ public class BoardDAO {
 		}
 		return count;
 	}
+
+	public void re_Reply(Reply reply) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			conn = DBConnection.getConnection();
+			String sql = "INSERT INTO test_reply (b_idx, u_idx, c_date, c_content, groups, orders, depth) VALUES(?, ?, ?, ?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reply.getB_idx());
+			pstmt.setInt(2, reply.getU_idx());
+			pstmt.setString(3, reply.getC_date());
+			pstmt.setString(4, reply.getC_content());
+			pstmt.setInt(5, reply.getGroups());
+			pstmt.setInt(6, (reply.getOrders())+1);
+			pstmt.setInt(7, (reply.getDepth())+1);
+			
+			pstmt.executeUpdate();
+			
+			if (pstmt != null)
+				pstmt.close();
+			
+			sql = "update test_reply set orders = orders+1 WHERE (not c_num =  LAST_INSERT_ID() ) && (not orders < ?) && (groups = ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1,(reply.getOrders())+1);
+			pstmt.setInt(2, reply.getGroups());
+			pstmt.executeUpdate();
+			
+		} catch (Exception ex) {
+			System.out.println("SQLException : " + ex.getMessage());
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 		
 }
 

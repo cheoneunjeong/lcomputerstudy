@@ -56,7 +56,8 @@ public class Controller extends HttpServlet {
 		Reply reply = null;
 		Detail detail = null;
 		int count = 0;
-
+		String content = null;
+		
 		switch (command) {
 		case "/user-list.do":
 			String reqPage = request.getParameter("page");
@@ -416,10 +417,61 @@ public class Controller extends HttpServlet {
 			
 			break;
 			
-		case "reg-Re-relply.do" :
+		case "/reg-Re-relply.do" :
 			
+			c_num = Integer.parseInt(request.getParameter("c_num"));
+			b_idx = Integer.parseInt(request.getParameter("b_idx"));		
+			cgroups = Integer.parseInt(request.getParameter("groups"));
+			orders = Integer.parseInt(request.getParameter("orders"));
+			depth = Integer.parseInt(request.getParameter("depth"));
 			
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
+				}
 			
+			request.setAttribute("c_num", c_num);
+			request.setAttribute("b_idx", b_idx);
+			request.setAttribute("groups", cgroups);
+			request.setAttribute("orders", orders);
+			request.setAttribute("depth", depth);
+			
+			view = "/board/re-reply";
+			
+		case "/reg-Re-relply2.do" :
+			
+			c_num = Integer.parseInt(request.getParameter("c_num"));
+			b_idx = Integer.parseInt(request.getParameter("b_idx"));
+			content = request.getParameter("content");
+			cgroups = Integer.parseInt(request.getParameter("groups"));
+			orders = Integer.parseInt(request.getParameter("orders"));
+			depth = Integer.parseInt(request.getParameter("depth"));
+			
+			session = request.getSession();
+			if(session.getAttribute("user")==null) {
+				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				break;
+			}
+			
+			user= (User)session.getAttribute("user");
+			u_idx = user.getU_idx();
+			
+			reply  = new Reply();
+			reply.setB_idx(b_idx);
+			reply.setC_content(content);
+			reply.setC_date_timestamp((new Timestamp(System.currentTimeMillis())));
+			reply.setDepth(depth);
+			reply.setGroups(cgroups);
+			reply.setOrders(orders);
+			reply.setU_idx(u_idx);
+			
+			boardService = BoardService.getInstance();
+			boardService.re_Reply(reply);
+			
+			url = "http://localhost:8080/lcomputerstudy/board-view.do?b_idx="+b_idx;
+			
+			break;
 			
 		}
 			

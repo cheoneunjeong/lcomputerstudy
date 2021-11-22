@@ -91,5 +91,10 @@ public class BoardService {
 	public int getReplyCount(int bidx) {
 		return dao.getReplyCount(bidx);
 	}
+
+	public void re_Reply(Reply reply) {
+		dao.re_Reply(reply);
+		
+	}
 	
 }
