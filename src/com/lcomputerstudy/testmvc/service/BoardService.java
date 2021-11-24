@@ -78,8 +78,8 @@ public class BoardService {
 		dao.regComment(post, groups, orders, depth);
 	}
 
-	public void regReply(Reply reply) {
-		dao.regReply(reply);
+	public ArrayList<Reply> regReply(Reply reply) {
+		return dao.regReply(reply);
 		
 	}
 
@@ -92,8 +92,8 @@ public class BoardService {
 		return dao.getReplyCount(bidx);
 	}
 
-	public void re_Reply(Reply reply) {
-		dao.re_Reply(reply);
+	public ArrayList re_Reply(Reply reply) {
+		return dao.re_Reply(reply);
 		
 	}
 	

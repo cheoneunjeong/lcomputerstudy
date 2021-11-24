@@ -71,7 +71,7 @@ INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`,
 	(116, '수정', 'ㅇㅇ', '2021-11-19 05:22:16', 11, 3, 113, 3, 2),
 	(117, 'tt', 'tt', '2021-11-19 07:45:40', 11, 3, 117, 1, 0),
 	(118, 'dd', 'dd', '2021-11-20 10:34:31', 11, 1, 118, 1, 0),
-	(119, 'ff', 'ff', '2021-11-20 10:38:15', 11, 247, 119, 1, 0),
+	(119, 'ff', 'ff', '2021-11-20 10:38:15', 11, 390, 119, 1, 0),
 	(120, 'fff', 'fff', '2021-11-20 10:38:23', 11, 1, 119, 2, 1);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 
@@ -90,18 +90,14 @@ CREATE TABLE IF NOT EXISTS `test_reply` (
   KEY `b_idx` (`b_idx`),
   CONSTRAINT `test_reply_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`),
   CONSTRAINT `test_reply_ibfk_2` FOREIGN KEY (`b_idx`) REFERENCES `test` (`b_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 jung.test_reply:~0 rows (대략적) 내보내기
+-- 테이블 데이터 jung.test_reply:~8 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test_reply` DISABLE KEYS */;
 INSERT INTO `test_reply` (`c_num`, `b_idx`, `u_idx`, `c_date`, `c_content`, `groups`, `orders`, `depth`) VALUES
-	(58, 119, 11, '2021-11-22 11:46:24', '댓', 58, 1, 0),
-	(59, 119, 11, '2021-11-22 11:46:28', '1', 58, 7, 1),
-	(60, 119, 11, '2021-11-22 11:46:32', '2', 58, 6, 1),
-	(61, 119, 11, '2021-11-22 11:46:35', '3', 58, 2, 1),
-	(62, 119, 11, '2021-11-22 11:46:40', '3-1', 58, 5, 2),
-	(63, 119, 11, '2021-11-22 11:46:46', '3-2', 58, 3, 2),
-	(64, 119, 11, '2021-11-22 11:46:52', '32-1', 58, 4, 3);
+	(101, 119, 11, '2021-11-24 11:59:10', 'qq', 101, 1, 0),
+	(102, 119, 11, '2021-11-24 11:59:14', 'ww', 102, 1, 0),
+	(103, 119, 11, '2021-11-24 11:59:19', 'ww', 103, 1, 0);
 /*!40000 ALTER TABLE `test_reply` ENABLE KEYS */;
 
 -- 테이블 jung.user 구조 내보내기

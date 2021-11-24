@@ -52,7 +52,7 @@ public class Controller extends HttpServlet {
 		HttpSession session = null;
 		User user = null;
 		BoardService boardService = null;
-		ArrayList<Post> list = null;
+		ArrayList list = null;
 		Reply reply = null;
 		Detail detail = null;
 		int count = 0;
@@ -373,25 +373,65 @@ public class Controller extends HttpServlet {
 				}
 			
 			user = (User)session.getAttribute("user");
+			int u_idx = user.getU_idx();
 			int b_idx = Integer.parseInt(request.getParameter("bidx"));
-			
-			reply = new Reply();
-			reply.setB_idx(b_idx);
-			reply.setU_idx(user.getU_idx());
-			reply.setC_date_timestamp(new Timestamp(System.currentTimeMillis()));
-			reply.setC_content(request.getParameter("content"));
-			
+			content = request.getParameter("c_content");
 			boardService = BoardService.getInstance();
-			boardService.regReply(reply);
+			count = boardService.getReplyCount(b_idx);
 			
-			url = "http://localhost:8080/lcomputerstudy/board-view.do?b_idx="+b_idx;
 			
-			break;
+			if( request.getParameter("groups") == null )
+			{
+				reply = new Reply();
+				reply.setB_idx(b_idx);
+				reply.setU_idx(u_idx);
+				reply.setC_date_timestamp(new Timestamp(System.currentTimeMillis()));
+				reply.setC_content(content);
+				
+				boardService = BoardService.getInstance();
+				list = boardService.regReply(reply);
+				
+				request.setAttribute("list", list);
+				request.setAttribute("bidx", b_idx);
+				request.setAttribute("count", count);
+				
+				view =  "/board/Reply";
+				
+				break;
+			}
+			else {
+				
+				int c_num = Integer.parseInt(request.getParameter("c_num"));
+				b_idx = Integer.parseInt(request.getParameter("bidx"));
+				cgroups = Integer.parseInt(request.getParameter("groups"));
+				orders = Integer.parseInt(request.getParameter("orders"));
+				depth = Integer.parseInt(request.getParameter("depths"));
+				
+				reply  = new Reply();
+				reply.setB_idx(b_idx);
+				reply.setC_content(content);
+				reply.setC_date_timestamp((new Timestamp(System.currentTimeMillis())));
+				reply.setDepth(depth);
+				reply.setGroups(cgroups);
+				reply.setOrders(orders);
+				reply.setU_idx(u_idx);
+				
+				list = boardService.re_Reply(reply);			
+				
+				request.setAttribute("list", list);
+				request.setAttribute("bidx", b_idx);
+				request.setAttribute("count", count);
+				
+				view = "/board/Reply";
+				
+				break;
+				
+			}
 			
 		case "/delete-reply.do" :
 			
 			int c_num = Integer.parseInt(request.getParameter("c_num"));
-			int u_idx = Integer.parseInt(request.getParameter("u_idx"));			
+			u_idx = Integer.parseInt(request.getParameter("u_idx"));			
 			b_idx = Integer.parseInt(request.getParameter("b_idx"));
 			
 			

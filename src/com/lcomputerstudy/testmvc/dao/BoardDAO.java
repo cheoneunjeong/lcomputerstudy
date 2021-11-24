@@ -230,6 +230,7 @@ public class BoardDAO {
 						.append("    (select @rownum := (select count(*)+1 from (SELECT * FROM test_reply WHERE b_idx= ?)ta)) tb \n")
 						.append("order by groups desc, orders asc)a \n")
 						.toString();
+	
 				pstmt = conn.prepareStatement(query);
 				pstmt.setInt(1, bidx);
 				pstmt.setInt(2, bidx);
@@ -500,10 +501,11 @@ public class BoardDAO {
 		}
 	}
 
-	public void regReply(Reply reply) {
+	public ArrayList<Reply> regReply(Reply reply) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		ArrayList<Reply> list = new ArrayList<>();
 
 		try {
 			conn = DBConnection.getConnection();
@@ -523,6 +525,37 @@ public class BoardDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.executeUpdate();
 			
+			if (pstmt != null)
+				pstmt.close();
+			
+			
+			sql = new StringBuilder()
+					.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('ㄴ', depth), c_content))as con,    ta.*\n")
+					.append("from (SELECT * FROM test_reply WHERE b_idx= ?)ta,\n")
+					.append("    (select @rownum := (select count(*)+1 from (SELECT * FROM test_reply WHERE b_idx= ?)ta)) tb \n")
+					.append("order by groups desc, orders asc)a \n")
+					.toString();
+			System.out.println(sql);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reply.getB_idx());
+			pstmt.setInt(2, reply.getB_idx());
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Reply replys = new Reply();
+				replys.setB_idx(rs.getInt("b_idx"));
+				replys.setC_content(rs.getString("c_content"));
+				replys.setC_date(rs.getString("c_date"));
+				replys.setU_idx(rs.getInt("u_idx"));
+				replys.setC_num(rs.getInt("c_num"));
+				replys.setGroups(rs.getInt("groups"));
+				replys.setOrders(rs.getInt("orders"));
+				replys.setDepth(rs.getInt("depth"));
+				replys.setCon(rs.getString("con"));
+				list.add(replys);
+			}
+			
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
 		} finally {
@@ -534,7 +567,7 @@ public class BoardDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		} return list;
 	}
 
 	public void deleteReply(int c_num) {
@@ -598,10 +631,11 @@ public class BoardDAO {
 		return count;
 	}
 
-	public void re_Reply(Reply reply) {
+	public ArrayList<Reply> re_Reply(Reply reply) {
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		ArrayList<Reply> list = new ArrayList<>();;
 
 		try {
 			conn = DBConnection.getConnection();
@@ -626,6 +660,36 @@ public class BoardDAO {
 			pstmt.setInt(2, reply.getGroups());
 			pstmt.executeUpdate();
 			
+			if (pstmt != null)
+				pstmt.close();
+			
+			sql = new StringBuilder()
+					.append("select * FROM(select @rownum := @rownum-1 as rownum, (concat(repeat('ㄴ', depth), c_content))as con,    ta.*\n")
+					.append("from (SELECT * FROM test_reply WHERE b_idx= ?)ta,\n")
+					.append("    (select @rownum := (select count(*)+1 from (SELECT * FROM test_reply WHERE b_idx= ?)ta)) tb \n")
+					.append("order by groups desc, orders asc)a \n")
+					.toString();
+			System.out.println(sql);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reply.getB_idx());
+			pstmt.setInt(2, reply.getB_idx());
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Reply replys = new Reply();
+				replys.setB_idx(rs.getInt("b_idx"));
+				replys.setC_content(rs.getString("c_content"));
+				replys.setC_date(rs.getString("c_date"));
+				replys.setU_idx(rs.getInt("u_idx"));
+				replys.setC_num(rs.getInt("c_num"));
+				replys.setGroups(rs.getInt("groups"));
+				replys.setOrders(rs.getInt("orders"));
+				replys.setDepth(rs.getInt("depth"));
+				replys.setCon(rs.getString("con"));
+				list.add(replys);
+			}
+			
 		} catch (Exception ex) {
 			System.out.println("SQLException : " + ex.getMessage());
 		} finally {
@@ -637,8 +701,9 @@ public class BoardDAO {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
-	}
+		} 
+		return list;
+	} 
 
 		
 }

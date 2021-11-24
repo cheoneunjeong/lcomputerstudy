@@ -49,15 +49,20 @@ div {
 			작성</button>
 	</div>
 	<br>
-	<div>
+	<div id="commentList">
 		<form action="reg-reply.do" method="post">
 			<p>${count}개의 댓글</p>
 
 
-			<p>
-				<input type="text" name="content"> 
+		<!--  	<p>
+				<textarea rows="5" cols="50" name="content" id="content"></textarea> 
 				<input type="hidden"name="bidx" value="${Post.b_idx }"> 
 				<input type="submit"value="등록">
+			</p>
+			-->
+			<p>
+				<textarea rows="5" cols="50" ></textarea> 
+				<button type="button" class="ReplyReg">등록</button>
 			</p>
 			<br>
 		</form>
@@ -79,7 +84,14 @@ div {
 					<button type="button" onclick="location.href='delete-reply.do?c_num=${replys.c_num}&&b_idx=${replys.b_idx}&&u_idx=${replys.u_idx}'">삭제</button>
 				 -->
 				 		<button type="button" class="btnReply">답글작성</button>
-						<button type="button">삭제</button>
+						<button type="button" onclick="location.href='delete-reply.do?c_num=${replys.c_num}&&b_idx=${replys.b_idx}&&u_idx=${replys.u_idx}'">삭제</button>
+					</td> 
+				</tr>
+				<tr style="display:none;"> 
+					<td>
+						<textarea rows="5" cols="50"></textarea>
+				 		<button type="button" class="btnReplyReg" cIdx="${replys.c_num}" groups="${replys.groups}" order="${replys.orders}" depth="${replys.depth}">작성</button>
+						<button type="button">취소</button>
 					</td> 
 				</tr>
 			</table>
@@ -88,13 +100,38 @@ div {
 	</div>
 <script>
 $(document).on('click', '.btnReply', function () {
+	$(this).parent().parent().next().show();
+});
+
+$(document).on('click', '.btnReplyReg', function () {
+	let bId = '${Post.b_idx }';
+	let cIdx = $(this).attr("cIdx");
+	let content = $(this).prev().val();
+	let group = $(this).attr("groups");
+	let order = $(this).attr("order");
+	let depth = $(this).attr("depth");
+	
 	$.ajax({
 		  method: "POST",
-		  url: "/reg-Comment2.do",
-		  data: { bid: '3', cidx: '43', comment: 'asfd' }
+		  url: "/lcomputerstudy/reg-reply.do",
+		  data: { bidx: bId, c_num: cIdx, c_content: content, groups : group, orders : order, depths : depth}
 		})
-	  .done(function( msg ) {
-	    alert( "Data Saved: " + msg );
+	  .done(function( html ) {
+	    $('#commentList').html(html);
+	  });
+});
+
+$(document).on('click', '.ReplyReg', function () {
+	let bId = '${Post.b_idx }';
+	let content = $(this).prev().val();
+	
+	$.ajax({
+		  method: "POST",
+		  url: "/lcomputerstudy/reg-reply.do",
+		  data: { bidx: bId, c_content: content}
+		})
+	  .done(function( html ) {
+	    $('#commentList').html(html);
 	  });
 });
 </script>	
