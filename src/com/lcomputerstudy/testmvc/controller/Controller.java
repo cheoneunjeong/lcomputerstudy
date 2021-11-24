@@ -401,7 +401,6 @@ public class Controller extends HttpServlet {
 			}
 			else {
 				
-				int c_num = Integer.parseInt(request.getParameter("c_num"));
 				b_idx = Integer.parseInt(request.getParameter("bidx"));
 				cgroups = Integer.parseInt(request.getParameter("groups"));
 				orders = Integer.parseInt(request.getParameter("orders"));

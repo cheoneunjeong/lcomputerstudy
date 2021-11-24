@@ -2,8 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
-		<form action="reg-reply.do" method="post">
 			<p>${count}개의 댓글</p>
 
 
@@ -12,7 +10,6 @@
 				<button type="button" class="ReplyReg">등록</button>
 			</p>
 			<br>
-		</form>
 		<c:forEach items="${list}" var="list" varStatus="status">
 			<table>
 				<tr>
@@ -28,13 +25,13 @@
 					<td>
 				
 				 		<button type="button" class="btnReply">답글작성</button>
-						<button type="button">삭제</button>
+						<button type="button" onclick="location.href='delete-reply.do?c_num=${list.c_num}&&b_idx=${list.b_idx}&&u_idx=${list.u_idx}'">삭제</button>
 					</td> 
 				</tr>
 				<tr style="display:none;"> 
 					<td>
 						<textarea rows="5" cols="50"></textarea>
-				 		<button type="button" class="btnReplyReg" cIdx="${list.c_num}">작성</button>
+				 		<button type="button" class="btnReplyReg" groups="${list.groups}" order="${list.orders}" depth="${list.depth}">작성</button>
 						<button type="button">취소</button>
 					</td> 
 				</tr>

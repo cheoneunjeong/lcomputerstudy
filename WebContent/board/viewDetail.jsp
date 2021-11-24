@@ -50,22 +50,12 @@ div {
 	</div>
 	<br>
 	<div id="commentList">
-		<form action="reg-reply.do" method="post">
 			<p>${count}개의 댓글</p>
-
-
-		<!--  	<p>
-				<textarea rows="5" cols="50" name="content" id="content"></textarea> 
-				<input type="hidden"name="bidx" value="${Post.b_idx }"> 
-				<input type="submit"value="등록">
-			</p>
-			-->
 			<p>
 				<textarea rows="5" cols="50" ></textarea> 
 				<button type="button" class="ReplyReg">등록</button>
 			</p>
 			<br>
-		</form>
 		<c:forEach items="${replys}" var="replys" varStatus="status">
 			<table>
 				<tr>
@@ -79,10 +69,6 @@ div {
 				</tr>
 				<tr> 
 					<td>
-				<!-- 
-					<button type="button" onclick="location.href='reg-Re-relply.do?c_num=${replys.c_num}&&b_idx=${replys.b_idx}&&groups=${replys.groups}&&orders=${replys.orders}&&depth=${replys.depth}'">답글작성</button>
-					<button type="button" onclick="location.href='delete-reply.do?c_num=${replys.c_num}&&b_idx=${replys.b_idx}&&u_idx=${replys.u_idx}'">삭제</button>
-				 -->
 				 		<button type="button" class="btnReply">답글작성</button>
 						<button type="button" onclick="location.href='delete-reply.do?c_num=${replys.c_num}&&b_idx=${replys.b_idx}&&u_idx=${replys.u_idx}'">삭제</button>
 					</td> 
@@ -90,7 +76,7 @@ div {
 				<tr style="display:none;"> 
 					<td>
 						<textarea rows="5" cols="50"></textarea>
-				 		<button type="button" class="btnReplyReg" cIdx="${replys.c_num}" groups="${replys.groups}" order="${replys.orders}" depth="${replys.depth}">작성</button>
+				 		<button type="button" class="btnReplyReg" groups="${replys.groups}" order="${replys.orders}" depth="${replys.depth}">작성</button>
 						<button type="button">취소</button>
 					</td> 
 				</tr>
@@ -114,7 +100,7 @@ $(document).on('click', '.btnReplyReg', function () {
 	$.ajax({
 		  method: "POST",
 		  url: "/lcomputerstudy/reg-reply.do",
-		  data: { bidx: bId, c_num: cIdx, c_content: content, groups : group, orders : order, depths : depth}
+		  data: { bidx: bId, c_content: content, groups: group, orders: order, depths: depth}
 		})
 	  .done(function( html ) {
 	    $('#commentList').html(html);

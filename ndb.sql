@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        10.5.8-MariaDB - mariadb.org binary distribution
+-- 서버 버전:                        10.6.4-MariaDB - mariadb.org binary distribution
 -- 서버 OS:                        Win64
--- HeidiSQL 버전:                  11.0.0.5919
+-- HeidiSQL 버전:                  11.3.0.6295
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,6 +10,7 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- jung 데이터베이스 구조 내보내기
@@ -27,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `board` (
   PRIMARY KEY (`b_idx`),
   KEY `u_idx` (`u_idx`),
   CONSTRAINT `board_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 jung.board:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board` DISABLE KEYS */;
@@ -49,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY (`b_idx`),
   KEY `u_idx` (`u_idx`),
   CONSTRAINT `test_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 jung.test:~19 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
@@ -71,7 +72,7 @@ INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`,
 	(116, '수정', 'ㅇㅇ', '2021-11-19 05:22:16', 11, 3, 113, 3, 2),
 	(117, 'tt', 'tt', '2021-11-19 07:45:40', 11, 3, 117, 1, 0),
 	(118, 'dd', 'dd', '2021-11-20 10:34:31', 11, 1, 118, 1, 0),
-	(119, 'ff', 'ff', '2021-11-20 10:38:15', 11, 390, 119, 1, 0),
+	(119, 'ff', 'ff', '2021-11-20 10:38:15', 11, 423, 119, 1, 0),
 	(120, 'fff', 'fff', '2021-11-20 10:38:23', 11, 1, 119, 2, 1);
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 
@@ -90,14 +91,19 @@ CREATE TABLE IF NOT EXISTS `test_reply` (
   KEY `b_idx` (`b_idx`),
   CONSTRAINT `test_reply_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`),
   CONSTRAINT `test_reply_ibfk_2` FOREIGN KEY (`b_idx`) REFERENCES `test` (`b_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb3;
 
--- 테이블 데이터 jung.test_reply:~8 rows (대략적) 내보내기
+-- 테이블 데이터 jung.test_reply:~3 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test_reply` DISABLE KEYS */;
 INSERT INTO `test_reply` (`c_num`, `b_idx`, `u_idx`, `c_date`, `c_content`, `groups`, `orders`, `depth`) VALUES
-	(101, 119, 11, '2021-11-24 11:59:10', 'qq', 101, 1, 0),
-	(102, 119, 11, '2021-11-24 11:59:14', 'ww', 102, 1, 0),
-	(103, 119, 11, '2021-11-24 11:59:19', 'ww', 103, 1, 0);
+	(125, 119, 11, '2021-11-24 02:54:26', '1', 125, 1, 0),
+	(126, 119, 11, '2021-11-24 02:54:30', '1-1', 125, 8, 1),
+	(127, 119, 11, '2021-11-24 02:54:35', '1-2', 125, 3, 1),
+	(128, 119, 11, '2021-11-24 02:54:38', '1-3', 125, 2, 1),
+	(129, 119, 11, '2021-11-24 02:54:42', '12-1', 125, 7, 2),
+	(130, 119, 11, '2021-11-24 02:54:51', '12-2', 125, 4, 2),
+	(131, 119, 11, '2021-11-24 02:54:58', '122-1', 125, 6, 3),
+	(132, 119, 11, '2021-11-24 02:55:03', '122-2', 125, 5, 3);
 /*!40000 ALTER TABLE `test_reply` ENABLE KEYS */;
 
 -- 테이블 jung.user 구조 내보내기
@@ -110,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `u_age` varchar(255) NOT NULL,
   `manager` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`u_idx`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
 
 -- 테이블 데이터 jung.user:~19 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
@@ -137,5 +143,6 @@ INSERT INTO `user` (`u_idx`, `u_id`, `u_pw`, `u_name`, `u_tel`, `u_age`, `manage
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
