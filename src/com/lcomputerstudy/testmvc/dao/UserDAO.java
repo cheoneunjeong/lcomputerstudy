@@ -43,6 +43,7 @@ public class UserDAO {
 				user.setU_name(rs.getString("u_name"));
 				user.setU_tel(rs.getString("u_tel"));
 				user.setU_age(rs.getString("u_age"));
+				user.setManager(rs.getInt("manager"));
 				list.add(user);
 			}
 		} catch (Exception e) {
@@ -136,7 +137,6 @@ public class UserDAO {
 					.append("FROM       user ta, \n")
 					.append("           (SELECT @rownum := (SELECT COUNT(*)-?+1 FROM user ta)) tb\n")
 					.append("LIMIT      ?, 3\n").toString();
-			System.out.println(query);
 
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, pageNum);
@@ -152,6 +152,7 @@ public class UserDAO {
 				user.setU_name(rs.getString(("u_name")));
 				user.setU_tel(rs.getString(("u_tel")));
 				user.setU_age(rs.getString(("u_age")));
+				user.setManager(rs.getInt("manager"));
 				list.add(user);
 			}
 		} catch (Exception e) {
@@ -223,11 +224,13 @@ public class UserDAO {
 			
 			try {
 				conn = DBConnection.getConnection();
+			
 				String query = "UPDATE user SET manager = '1' WHERE u_idx = ?";
 				pstmt = conn.prepareStatement(query);
 				pstmt.setInt(1, Mids);
-				int r = pstmt.executeUpdate();
-				System.out.println(r);
+				pstmt.executeUpdate();
+	
+
 			} catch (Exception e) {
 
 			} finally {

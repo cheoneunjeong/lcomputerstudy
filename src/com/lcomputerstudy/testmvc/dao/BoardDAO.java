@@ -9,6 +9,7 @@ import java.util.Collection;
 
 import com.lcomputerstudy.testmvc.database.DBConnection;
 import com.lcomputerstudy.testmvc.vo.Detail;
+import com.lcomputerstudy.testmvc.vo.File;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.Reply;
 
@@ -535,7 +536,6 @@ public class BoardDAO {
 					.append("    (select @rownum := (select count(*)+1 from (SELECT * FROM test_reply WHERE b_idx= ?)ta)) tb \n")
 					.append("order by groups desc, orders asc)a \n")
 					.toString();
-			System.out.println(sql);
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, reply.getB_idx());
@@ -669,7 +669,6 @@ public class BoardDAO {
 					.append("    (select @rownum := (select count(*)+1 from (SELECT * FROM test_reply WHERE b_idx= ?)ta)) tb \n")
 					.append("order by groups desc, orders asc)a \n")
 					.toString();
-			System.out.println(sql);
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, reply.getB_idx());
@@ -703,6 +702,16 @@ public class BoardDAO {
 			}
 		} 
 		return list;
+	}
+
+	public void insertFile(File file) {
+		
+		int insertCount = 0;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		
 	} 
 
 		

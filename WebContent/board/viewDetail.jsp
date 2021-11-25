@@ -10,7 +10,7 @@
 </head>
 <style>
 div {
-	width: 50%;
+	width: 40%;
 	margin: 0 auto;
 }
 
@@ -20,21 +20,22 @@ div {
 	width: 100%;
 	margin: 0 auto;
 }
+
 </style>
 <body>
 	<div>
 		<table class="a">
 			<tr>
-				<th class="a" align="center">${Post.b_title }</th>
+				<th height="30"class="a" align="center">${Post.b_title }</th>
 			</tr>
 			<tr>
-				<td class="a" align="right">${Post.u_idx}조회수: ${Post.hit}</td>
+				<td class="a" align="right">작성자 : ${Post.u_idx} / 조회수: ${Post.hit}</td>
 			</tr>
 			<tr>
 				<td class="a" align="right">${Post.b_date}</td>
 			</tr>
 			<tr>
-				<td class="a" align="center">${Post.b_content}</td>
+				<td height="300" class="a" align="center">${Post.b_content}</td>
 			</tr>
 		</table>
 	</div>
@@ -77,7 +78,7 @@ div {
 					<td>
 						<textarea rows="5" cols="50"></textarea>
 				 		<button type="button" class="btnReplyReg" groups="${replys.groups}" order="${replys.orders}" depth="${replys.depth}">작성</button>
-						<button type="button">취소</button>
+						<button type="button" class="cancel">취소</button>
 					</td> 
 				</tr>
 			</table>
@@ -103,8 +104,11 @@ $(document).on('click', '.btnReplyReg', function () {
 		  data: { bidx: bId, c_content: content, groups: group, orders: order, depths: depth}
 		})
 	  .done(function( html ) {
-	    $('#commentList').html(html);
-	  });
+		  $('#commentList').html(html);
+	  })
+		.fail(function( html){
+			location.href = "http://localhost:8080/lcomputerstudy/user-login.do";
+		})
 });
 
 $(document).on('click', '.ReplyReg', function () {
@@ -118,7 +122,14 @@ $(document).on('click', '.ReplyReg', function () {
 		})
 	  .done(function( html ) {
 	    $('#commentList').html(html);
-	  });
+	  })
+		.fail(function( html){
+		location.href = "http://localhost:8080/lcomputerstudy/user-login.do";
+	})
+});
+
+$(document).on('click', '.cancel', function () {
+	$(this).parent().parent().hide();
 });
 </script>	
 </body>

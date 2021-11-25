@@ -55,14 +55,14 @@
 			<th>No</th>
 			<th>ID</th>
 			<th>이름</th>
-			<th><span><input type="submit" value="관리자 지정"></span></th>
+			<th>관리자 설정 <input type="submit" name="select" value="V"></th>
 		<tr>
 		<c:forEach items="${list}" var="item" varStatus="status">
 			 <tr>
-				<td><a href="user-detail.do?u_idx=${item.u_idx}">${item.u_idx}</a></td>
+				<td><a href="user-detail.do?u_idx=${item.u_idx}">${item.u_idx} </a></td>
 				<td>${item.u_id}</td>
 				<td>${item.u_name}</td>
-				<td><input type="checkbox" name="mids"
+				<td><input type="checkbox" name="mids" ${(item.manager == 1)? "checked= 'checked'" : "" }
 							value="${item.u_idx}"> </td>
 		     </tr>
 		 </c:forEach>

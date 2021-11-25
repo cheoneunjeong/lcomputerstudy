@@ -22,6 +22,7 @@ import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.Reply;
 import com.lcomputerstudy.testmvc.vo.User;
+import com.sun.media.sound.ModelAbstractChannelMixer;
 
 @WebServlet("*.do")
 public class Controller extends HttpServlet {
@@ -368,7 +369,7 @@ public class Controller extends HttpServlet {
 			
 			session = request.getSession();
 			if(session.getAttribute("user")==null) {
-				url = "http://localhost:8080/lcomputerstudy/user-login.do";
+				
 				break;
 				}
 			
