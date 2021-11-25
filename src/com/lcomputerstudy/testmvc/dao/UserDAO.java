@@ -213,26 +213,42 @@ public class UserDAO {
 		return user;
 	}
 
-	public void setmanager(String[] mids) {
+	public void setmanager(String[] mids, String[] cids) {
 	
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		
-		for(String mids_ : mids) {
-			
-			int Mids = Integer.parseInt(mids_);
-			
+
 			try {
-				conn = DBConnection.getConnection();
+				
+				for(String mids_ : mids) {
 			
-				String query = "UPDATE user SET manager = '1' WHERE u_idx = ?";
-				pstmt = conn.prepareStatement(query);
-				pstmt.setInt(1, Mids);
-				pstmt.executeUpdate();
-	
+					int Mids = Integer.parseInt(mids_);
+					conn = DBConnection.getConnection();
+				
+					String query = "UPDATE user SET manager = '1' WHERE u_idx = ?";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, Mids);
+					int r = pstmt.executeUpdate();
+					System.out.println(r);
+					
+				}
+				
+				if (pstmt != null)
+					pstmt.close();
+				
+				for(String cids_ : cids) {
+					
+					int Cids = Integer.parseInt(cids_);
+						
+					String query = "UPDATE user SET manager = '0' WHERE u_idx = ?";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, Cids);
+					int r = pstmt.executeUpdate();
+					System.out.println(r);
+				}
 
 			} catch (Exception e) {
-
+				
 			} finally {
 				try {
 					if (pstmt != null)
@@ -244,7 +260,42 @@ public class UserDAO {
 					e.printStackTrace();
 				}
 			}
-		}
+		
+	}
+
+	public void setZeromanager(String[] ids) {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+			try {
+				
+				for(String ids_ : ids) {
+			
+					int Ids = Integer.parseInt(ids_);
+					conn = DBConnection.getConnection();
+				
+					String query = "UPDATE user SET manager = '0' WHERE u_idx = ?";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setInt(1, Ids);
+					int r = pstmt.executeUpdate();
+					System.out.println(r);	
+				}
+			} catch (Exception e) {
+				
+			} finally {
+				try {
+					if (pstmt != null)
+						pstmt.close();
+					if (conn != null)
+						conn.close();
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		
 	}
 
 }
+

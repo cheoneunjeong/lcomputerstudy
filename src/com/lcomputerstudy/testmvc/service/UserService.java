@@ -42,8 +42,13 @@ public class UserService {
 		return dao.loginUser(idx,pw);
 	}
 
-	public void setmanager(String[] mids) {
-		 dao.setmanager(mids);
+	public void setmanager(String[] mids, String[] cids) {
+		 dao.setmanager(mids, cids);
+		
+	}
+
+	public void setZeromanager(String[] ids) {
+		dao.setZeromanager(ids);
 		
 	}
 

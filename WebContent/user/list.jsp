@@ -55,7 +55,7 @@
 			<th>No</th>
 			<th>ID</th>
 			<th>이름</th>
-			<th>관리자 설정 <input type="submit" name="select" value="V"></th>
+			<th>관리자 설정 <input type="submit" value="V"></th>
 		<tr>
 		<c:forEach items="${list}" var="item" varStatus="status">
 			 <tr>
@@ -67,6 +67,11 @@
 		     </tr>
 		 </c:forEach>
 	</table>
+	<c:set var="ids" value=""/>
+	<c:forEach var="n" items="${list}">
+	<c:set var="ids" value="${ids} ${n.u_idx}"></c:set>
+	</c:forEach>
+	<input type="hidden" name="ids" value="${ids}">
 	</form>
 	<div>
 		<ul>

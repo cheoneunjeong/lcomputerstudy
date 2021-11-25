@@ -3,6 +3,8 @@ package com.lcomputerstudy.testmvc.controller;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -309,12 +311,35 @@ public class Controller extends HttpServlet {
 			break;	
 			
 		case "/set-manager.do" :
-			
+
+			String ids_ = request.getParameter("ids");
+			String[] ids = ids_.trim().split(" "); 
 			String[] mids = request.getParameterValues("mids");
-			request.setAttribute("mids", mids);
+			String[] cids = null;
 			
-			userService = UserService.getInstance();
-			userService.setmanager(mids);
+			if(mids ==null) {
+				mids = new String[0];
+		
+				request.setAttribute("ids", ids);
+				
+				userService = UserService.getInstance();
+				userService.setZeromanager(ids);
+			}
+			else {
+				
+				List<String> Mids = Arrays.asList(mids);
+				List<String> cids_ = new ArrayList(Arrays.asList(ids));
+				cids_.removeAll(Mids);
+				
+				cids = cids_.toArray(new String[0]);
+				
+				request.setAttribute("mids", mids);
+				request.setAttribute("cids", cids);
+	
+				userService = UserService.getInstance();
+				userService.setmanager(mids, cids);
+				
+			}
 			
 			url ="http://localhost:8080/lcomputerstudy/user-list.do";
 			
