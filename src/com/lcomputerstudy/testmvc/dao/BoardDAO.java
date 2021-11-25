@@ -33,14 +33,15 @@ public class BoardDAO {
 
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "INSERT INTO test (b_title, b_content, b_date, u_idx, b_file) VALUES(?, ?, ?, ?)";
+			String sql = "INSERT INTO test (b_title, b_content, b_date, u_idx, b_file) VALUES(?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, post.getB_title());
 			pstmt.setString(2, post.getB_content());
 			pstmt.setString(3, post.getB_date());
 			pstmt.setInt(4, post.getU_idx());
 			pstmt.setString(5, post.getB_file());
-			pstmt.executeUpdate();
+			int r= pstmt.executeUpdate();
+			System.out.println(r);
 			
 			if (pstmt != null)
 				pstmt.close();
@@ -219,6 +220,7 @@ public class BoardDAO {
 				post.setGroups(rs.getInt("groups"));
 				post.setOrders(rs.getInt("orders"));
 				post.setDepth(rs.getInt("depth"));
+				post.setB_file(rs.getString("b_file"));
 				
 				if (rs != null)
 					rs.close();

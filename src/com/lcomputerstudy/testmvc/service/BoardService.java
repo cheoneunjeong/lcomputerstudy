@@ -1,6 +1,12 @@
 package com.lcomputerstudy.testmvc.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+
+import javax.servlet.http.Part;
 
 import com.lcomputerstudy.testmvc.dao.BoardDAO;
 import com.lcomputerstudy.testmvc.dao.BoardHitDAO;
@@ -92,10 +98,29 @@ public class BoardService {
 		return dao.getReplyCount(bidx);
 	}
 
-	public ArrayList re_Reply(Reply reply) {
+	public ArrayList<Reply> re_Reply(Reply reply) {
 		return dao.re_Reply(reply);
 		
 	}
 	
+	public ArrayList<String> getfileName(Post post) {
+		
+		String file = post.getB_file();
+		
+		if(file == null) 
+			file = "";
+		
+		ArrayList<String> fileName = new ArrayList<>();
+		
+		if(file.contains(",")) {
+			String[] files = post.getB_file().split(",");
+			for(String file_ : files)
+				fileName.add(file_);	
+		} else 
+			fileName.add(file);
+		
+		return fileName;
+		
+	}
 	
 }

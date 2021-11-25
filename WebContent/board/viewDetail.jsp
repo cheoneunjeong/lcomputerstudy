@@ -10,7 +10,7 @@
 </head>
 <style>
 div {
-	width: 40%;
+	width: 60%;
 	margin: 0 auto;
 }
 
@@ -33,6 +33,14 @@ div {
 			</tr>
 			<tr>
 				<td class="a" align="right">${Post.b_date}</td>
+			</tr>
+			<tr>
+				<td class="a" align="left"> 첨부파일 : 
+				<c:forEach items="${fileName}" var="fileName" varStatus="status">
+				<a download href= "./upload/${fileName}">${fileName}</a>
+				</c:forEach>
+				</td>
+			
 			</tr>
 			<tr>
 				<td height="300" class="a" align="center">${Post.b_content}</td>

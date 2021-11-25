@@ -149,12 +149,14 @@ public class Controller extends HttpServlet {
 
 			user = (User)session.getAttribute("user");
 			
-			StringBuilder builder = new StringBuilder();
 			Collection<Part> parts = request.getParts();
+			
+			StringBuilder builder = new StringBuilder();
 			
 			for(Part p : parts) {
 			
 				if(!p.getName().equals("file")) continue;
+				if(p.getSize()==0) continue;
 				
 				Part filepart = p;
 				String fileName = filepart.getSubmittedFileName();
@@ -167,8 +169,6 @@ public class Controller extends HttpServlet {
 				String filePath = realPath + File.separator + fileName;
 				FileOutputStream fos = new FileOutputStream(filePath);
 				
-				System.out.println(filePath);
-				
 				byte[] buf = new byte[1024];
 				int size = 0;
 				while((size=fis.read(buf)) != -1) 
@@ -178,6 +178,7 @@ public class Controller extends HttpServlet {
 					fis.close();
 			}
 			
+			if(builder.toString().contains(",")) 
 			builder.delete(builder.length()-1, builder.length());
 			
 			post = new Post();
@@ -221,9 +222,12 @@ public class Controller extends HttpServlet {
 			detail = boardService.getPostDetail(bidx);
 			count = boardService.getReplyCount(bidx);
 			
-			ArrayList replys = detail.getList();
+			ArrayList<Reply> replys = detail.getList();
 			post = detail.getPost();
-		
+			
+			ArrayList<String> fileName = boardService.getfileName(post);
+	
+			request.setAttribute("fileName", fileName);
 			request.setAttribute("Post", post);
 			request.setAttribute("replys", replys);
 			request.setAttribute("count", count);
@@ -371,7 +375,7 @@ public class Controller extends HttpServlet {
 			else {
 				
 				List<String> Mids = Arrays.asList(mids);
-				List<String> cids_ = new ArrayList(Arrays.asList(ids));
+				List<String> cids_ = new ArrayList<>(Arrays.asList(ids));
 				cids_.removeAll(Mids);
 				
 				cids = cids_.toArray(new String[0]);
