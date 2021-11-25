@@ -18,10 +18,12 @@
 <div>
 <fieldset>
 <form action="reg.do" method="post" encType="multipart/form-data">
-	<p> 제목 <input type="text" name="title">
-	<input type="file" name="fileName"/>
-	</p>
-	내용<br>
+	<p> 제목 <input type="text" name="title"></p>
+	<p>
+	<input type="file" name="file"/>
+	<input type="file" name="file"/></p>
+	내용
+	<br>
 	<textarea rows="20" cols="50" name="content"></textarea>
 	<br>
 	<span> <input type="submit" value="등록"> </span>

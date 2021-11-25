@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.lcomputerstudy.testmvc.dao.BoardDAO;
 import com.lcomputerstudy.testmvc.dao.BoardHitDAO;
 import com.lcomputerstudy.testmvc.vo.Detail;
-import com.lcomputerstudy.testmvc.vo.File;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.Reply;
 
@@ -98,8 +97,5 @@ public class BoardService {
 		
 	}
 	
-	public void insertFile(File file) {
-		dao.insertFile(file);
-	}
 	
 }

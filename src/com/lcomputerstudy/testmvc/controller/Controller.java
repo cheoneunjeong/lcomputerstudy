@@ -1,18 +1,24 @@
 package com.lcomputerstudy.testmvc.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import com.lcomputerstudy.testmvc.dao.BoardHitDAO;
 import com.lcomputerstudy.testmvc.service.BoardService;
@@ -26,6 +32,11 @@ import com.lcomputerstudy.testmvc.vo.Reply;
 import com.lcomputerstudy.testmvc.vo.User;
 import com.sun.media.sound.ModelAbstractChannelMixer;
 
+@MultipartConfig(
+		fileSizeThreshold=1024*1024,
+		maxFileSize=1024*1024*50,
+		maxRequestSize=1024*1024*50*5
+		)
 @WebServlet("*.do")
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -138,11 +149,43 @@ public class Controller extends HttpServlet {
 
 			user = (User)session.getAttribute("user");
 			
+			StringBuilder builder = new StringBuilder();
+			Collection<Part> parts = request.getParts();
+			
+			for(Part p : parts) {
+			
+				if(!p.getName().equals("file")) continue;
+				
+				Part filepart = p;
+				String fileName = filepart.getSubmittedFileName();
+				builder.append(fileName);
+				builder.append(",");
+				
+				InputStream fis = filepart.getInputStream();
+				
+				String realPath = request.getServletContext().getRealPath("/upload");
+				String filePath = realPath + File.separator + fileName;
+				FileOutputStream fos = new FileOutputStream(filePath);
+				
+				System.out.println(filePath);
+				
+				byte[] buf = new byte[1024];
+				int size = 0;
+				while((size=fis.read(buf)) != -1) 
+					fos.write(buf, 0, size);
+					
+					fos.close();
+					fis.close();
+			}
+			
+			builder.delete(builder.length()-1, builder.length());
+			
 			post = new Post();
 			post.setB_title(request.getParameter("title"));
 			post.setB_content(request.getParameter("content"));
 			post.setB_date_timestamp(new Timestamp(System.currentTimeMillis()));
 			post.setU_idx(user.getU_idx());
+			post.setB_file(builder.toString());
 		
 			boardService = BoardService.getInstance();
 			boardService.reg(post);

@@ -17,6 +17,7 @@ public class Post {
 	private int orders;
 	private int depth;
 	private String concat;
+	private String b_file;
 
 
 	public int getB_idx() {
@@ -117,4 +118,14 @@ public class Post {
 	public void setConcat(String concat) {
 		this.concat = concat;
 	}
+
+	public String getB_file() {
+		return b_file;
+	}
+
+	public void setB_file(String b_file) {
+		this.b_file = b_file;
+	}
+	
+	
 }

@@ -9,7 +9,6 @@ import java.util.Collection;
 
 import com.lcomputerstudy.testmvc.database.DBConnection;
 import com.lcomputerstudy.testmvc.vo.Detail;
-import com.lcomputerstudy.testmvc.vo.File;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.Reply;
 
@@ -34,12 +33,13 @@ public class BoardDAO {
 
 		try {
 			conn = DBConnection.getConnection();
-			String sql = "INSERT INTO test (b_title, b_content, b_date, u_idx) VALUES(?, ?, ?, ?)";
+			String sql = "INSERT INTO test (b_title, b_content, b_date, u_idx, b_file) VALUES(?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, post.getB_title());
 			pstmt.setString(2, post.getB_content());
 			pstmt.setString(3, post.getB_date());
 			pstmt.setInt(4, post.getU_idx());
+			pstmt.setString(5, post.getB_file());
 			pstmt.executeUpdate();
 			
 			if (pstmt != null)
@@ -703,17 +703,6 @@ public class BoardDAO {
 		} 
 		return list;
 	}
-
-	public void insertFile(File file) {
-		
-		int insertCount = 0;
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		
-	} 
-
 		
 }
 
