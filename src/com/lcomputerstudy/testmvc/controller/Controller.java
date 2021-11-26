@@ -166,7 +166,7 @@ public class Controller extends HttpServlet {
 				
 				String realPath = request.getServletContext().getRealPath("/upload");
 				String filePath = realPath + File.separator + fileName;
-				System.out.println(filePath);
+
 				FileOutputStream fos = new FileOutputStream(filePath);
 				
 				byte[] buf = new byte[1024];
