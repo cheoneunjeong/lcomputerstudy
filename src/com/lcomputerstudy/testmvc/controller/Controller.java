@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import com.lcomputerstudy.testmvc.dao.BoardHitDAO;
 import com.lcomputerstudy.testmvc.service.BoardService;
 import com.lcomputerstudy.testmvc.service.UserService;
 import com.lcomputerstudy.testmvc.vo.BSpagination;
@@ -30,7 +29,7 @@ import com.lcomputerstudy.testmvc.vo.Pagination;
 import com.lcomputerstudy.testmvc.vo.Post;
 import com.lcomputerstudy.testmvc.vo.Reply;
 import com.lcomputerstudy.testmvc.vo.User;
-import com.sun.media.sound.ModelAbstractChannelMixer;
+
 
 @MultipartConfig(
 		fileSizeThreshold=1024*1024,
@@ -167,6 +166,7 @@ public class Controller extends HttpServlet {
 				
 				String realPath = request.getServletContext().getRealPath("/upload");
 				String filePath = realPath + File.separator + fileName;
+				System.out.println(filePath);
 				FileOutputStream fos = new FileOutputStream(filePath);
 				
 				byte[] buf = new byte[1024];
@@ -174,10 +174,11 @@ public class Controller extends HttpServlet {
 				while((size=fis.read(buf)) != -1) 
 					fos.write(buf, 0, size);
 					
-					fos.close();
-					fis.close();
+				fos.close();
+				fis.close();
 			}
 			
+
 			if(builder.toString().contains(",")) 
 			builder.delete(builder.length()-1, builder.length());
 			

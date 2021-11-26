@@ -43,7 +43,10 @@ div {
 			
 			</tr>
 			<tr>
-				<td height="300" class="a" align="center">${Post.b_content}</td>
+				<td height="300" class="a" align="center">
+					<img src="./upload/${Post.b_content}"/>
+					${Post.b_content}
+				</td>
 			</tr>
 		</table>
 	</div>

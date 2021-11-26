@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- 호스트:                          127.0.0.1
--- 서버 버전:                        10.6.4-MariaDB - mariadb.org binary distribution
+-- 서버 버전:                        10.5.8-MariaDB - mariadb.org binary distribution
 -- 서버 OS:                        Win64
--- HeidiSQL 버전:                  11.3.0.6295
+-- HeidiSQL 버전:                  11.0.0.5919
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -10,7 +10,6 @@
 /*!50503 SET NAMES utf8mb4 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
 -- jung 데이터베이스 구조 내보내기
@@ -28,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `board` (
   PRIMARY KEY (`b_idx`),
   KEY `u_idx` (`u_idx`),
   CONSTRAINT `board_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 jung.board:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `board` DISABLE KEYS */;
@@ -51,9 +50,9 @@ CREATE TABLE IF NOT EXISTS `test` (
   PRIMARY KEY (`b_idx`),
   KEY `u_idx` (`u_idx`),
   CONSTRAINT `test_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
 
--- 테이블 데이터 jung.test:~19 rows (대략적) 내보내기
+-- 테이블 데이터 jung.test:~20 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
 INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`, `groups`, `orders`, `depth`, `b_file`) VALUES
 	(99, '1', 'l', '2021-11-19 09:59:04', 11, 3, 99, 1, 0, NULL),
@@ -74,8 +73,10 @@ INSERT INTO `test` (`b_idx`, `b_title`, `b_content`, `b_date`, `u_idx`, `b_hit`,
 	(117, 'tt', 'tt', '2021-11-19 07:45:40', 11, 3, 117, 1, 0, NULL),
 	(121, 'zz', 'zz', '2021-11-25 04:16:13', 11, 0, 121, 1, 0, NULL),
 	(122, 'zz', 'zz', '2021-11-25 04:58:11', 11, 4, 122, 1, 0, NULL),
-	(123, 'f', 'f', '2021-11-25 04:59:30', 11, 6, 123, 1, 0, NULL),
-	(126, 'ee', 'ee', '2021-11-26 12:48:28', 11, 6, 126, 1, 0, 'ss.jpg,ss.jpg');
+	(123, 'f', 'f', '2021-11-25 04:59:30', 11, 7, 123, 1, 0, NULL),
+	(135, 'TRYH', 'EY', '2021-11-26 10:07:19', 11, 1, 135, 1, 0, '추상.txt'),
+	(136, 'ZZZ', 'ZZZZ', '2021-11-26 10:07:48', 11, 8, 136, 1, 0, '추상.txt,인터.txt'),
+	(156, 'ㅇㄴㅇ', '9946A4505F5817A60D.png', '2021-11-26 11:22:13', 11, 4, 156, 1, 0, '9946A4505F5817A60D.png');
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 
 -- 테이블 jung.test_reply 구조 내보내기
@@ -93,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `test_reply` (
   KEY `b_idx` (`b_idx`),
   CONSTRAINT `test_reply_ibfk_1` FOREIGN KEY (`u_idx`) REFERENCES `user` (`u_idx`),
   CONSTRAINT `test_reply_ibfk_2` FOREIGN KEY (`b_idx`) REFERENCES `test` (`b_idx`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 jung.test_reply:~0 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `test_reply` DISABLE KEYS */;
@@ -109,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `u_age` varchar(255) NOT NULL,
   `manager` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`u_idx`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- 테이블 데이터 jung.user:~19 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
@@ -136,6 +137,5 @@ INSERT INTO `user` (`u_idx`, `u_id`, `u_pw`, `u_name`, `u_tel`, `u_age`, `manage
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
