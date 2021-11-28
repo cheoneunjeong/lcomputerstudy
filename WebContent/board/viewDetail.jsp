@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,7 +104,6 @@ $(document).on('click', '.btnReply', function () {
 
 $(document).on('click', '.btnReplyReg', function () {
 	let bId = '${Post.b_idx }';
-	let cIdx = $(this).attr("cIdx");
 	let content = $(this).prev().val();
 	let group = $(this).attr("groups");
 	let order = $(this).attr("order");
